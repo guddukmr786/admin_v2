@@ -1,0 +1,162 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin:0px; 
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+
+
+ol, ul {
+  list-style: none;margin:0px;padding:0px;
+}
+
+
+
+body {
+  font: 13px/20px 'Lucida Grande', Verdana, sans-serif;
+  color: #797979;
+  
+}
+
+.cir {
+  margin: 30px auto;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 3px;
+  -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);
+}
+
+.cir-top {
+  position: relative;
+  z-index: 1;
+  height: 40px;
+  line-height: 24px;
+  padding: 8px 15px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #eee;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.8);
+  background: #1d5385;
+  border-bottom: 1px solid #222;
+  border-radius: 2px 2px 0 0;
+ 
+  -webkit-box-shadow: inset 0 1px rgba(255, 255, 255, 0.05), inset 0 0 0 1px rgba(255, 255, 255, 0.1), 0 1px 2px rgba(0, 0, 0, 0.25);
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.05), inset 0 0 0 1px rgba(255, 255, 255, 0.1), 0 1px 2px rgba(0, 0, 0, 0.25);
+}
+
+.cir-top-title {
+  float: left;
+}
+
+.cir-top-info {
+  float: right;
+}
+
+.cir-item {
+  position: relative;
+  line-height: 20px;
+  padding: 10px 10px 10px 10px;
+  font-weight: bold;
+  background: #fff!important;
+  border-bottom: 1px solid #222;
+  background-image: -webkit-linear-gradient(top, #575757, #4e4e4e);
+  background-image: -moz-linear-gradient(top, #575757, #4e4e4e);
+  background-image: -o-linear-gradient(top, #575757, #4e4e4e);
+  background-image: linear-gradient(to bottom, #575757, #4e4e4e);
+  -webkit-box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);color:#1d5385!important;
+}
+.cir-item:first-child {
+  margin-top: -1px;
+  padding-top: 11px;
+}
+
+.cir-item-pic {
+  position: relative;
+  float: left;
+  margin: -2px 12px 0 -7px;
+}
+.cir-item-pic > img {
+  display: block;
+  height: 44px;
+  width: 44px;
+  border-radius: 3px;
+}
+.cir-item-pic:before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  bottom: -1px;
+  left: -1px;
+  right: -1px;
+  border: 1px solid #000;
+  border-radius: 4px;
+ 
+}
+
+.cir-item-desc {
+  display: block;
+  font-size: 11px;
+  font-weight: normal;
+  color: #333;font-weight:600;
+}
+
+.cir-item-name{
+  display: block;
+  font-size: 13px;
+  font-weight: normal;
+  color: #1d5385;font-weight:600;
+}
+.cir-item-name a{color: #1d5385;font-weight:600;text-decoration:none;font-size:14px;}
+
+.cir-bottom {
+  line-height: 31px;
+  padding: 10px 10px 10px 15px;
+  font-weight: bold;
+  background: #484848;
+ 
+}
+.cir-bottom > .cir-button {
+  float: right;
+}
+
+.cir-button {
+  line-height: 29px;
+  padding: 0 25px;
+  color: white;
+  text-decoration: none;
+  text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+  background: #5aa327 padding-box;
+  border: 1px solid #333;
+  border-radius: 4px;
+  background-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.1) 50%, transparent 50%, rgba(0, 0, 0, 0.04));
+  background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.1) 50%, transparent 50%, rgba(0, 0, 0, 0.04));
+  background-image: -o-linear-gradient(top, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.1) 50%, transparent 50%, rgba(0, 0, 0, 0.04));
+  background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.1) 50%, transparent 50%, rgba(0, 0, 0, 0.04));
+  -webkit-box-shadow: inset 0 1px rgba(255, 255, 255, 0.15), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.15), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+.cir-button:hover {
+  background-color: #5daa2d;
+}
+.cir-button:active {
+  background-image: none;
+  border-color: rgba(0, 0, 0, 0.4);
+  -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25), 0 1px rgba(255, 255, 255, 0.05);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25), 0 1px rgba(255, 255, 255, 0.05);
+}

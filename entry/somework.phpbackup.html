@@ -1,0 +1,107 @@
+<?php include('../include/footer.php');?>
+
+	<?php echo '<script src="js/quantity-bt.js"></script>
+	<script src="js/bootstrap-datepicker.js"></script>
+	<script type="text/javascript" src="js/save_entry_fromdata.js"></script>
+	<script>
+
+	$(document).ready(function(){var touch=$("#touch-menu");var menu=$(".menu");$(touch).on("click",function(e){e.preventDefault();menu.slideToggle();});$(window).resize(function(){var w=$(window).width();if(w>767&&menu.is(":hidden")){menu.removeAttr("style");}});});
+
+	</script>
+	<!--url replacing -->
+	<script type="text/javascript">
+
+	$("a[data-toggle=modal]").click(function(){
+		var room_number = $(this).attr("id");
+		$.session.set("room_number",room_number);
+		$("a[href=?room_status=empty]").attr("href", "?room_status=empty&room_number="+room_number);
+		$("form[action="insert_data.php"]").attr("action", "insert_data.php?room_number="+room_number);
+		$("a[title=""]").attr("title", room_number);
+
+	});
+	</script>
+	<script type="text/javascript">
+		$(window).load(function(){
+			$("a[title=""]").attr("title", $.session.get("room_number"));
+		});
+	</script>
+	<script>
+	$(document).ready(function () {
+
+		$("#checkin").datepicker({ minDate: "01/07/2012", maxDate: "01/30/2012" });
+
+		$("#checkout").datepicker({ beforeShow: setminDate });
+
+		var start1 = $("#checkin");      
+		function setminDate() {          
+			var p = start1.datepicker("getDate");          
+			if (p) { 
+				var k ="01/30/2012";            
+				return {
+					minDate: p,
+					maxDate:k
+				}};         
+			}           
+			function clearEndDate(dateText, inst) {          
+				end1.val('');      
+			}  
+		});
+	$(function() {
+		$( "#checkout" ).datepicker({ dateFormat: "mm/dd/yyyy" });
+		$( "#checkin" ).datepicker({ dateFormat: "mm/dd/yyyy" });
+	});
+	$("#nights").click(function() {
+		var start = $("#checkin").datepicker("getDate");
+		var end   = $("#checkout").datepicker("getDate");
+		var days   = (end - start)/1000/60/60/24;
+		$("#nights").val(days);
+	});
+	</script>
+	<script type="text/javascript">
+
+	$("a[data-toggle=modalbooked]").click(function(){
+
+		var room_number = $(this).attr("id");
+		$.ajax({
+			url :"room_guest_details.php?room_number="+room_number,
+			success:function(data){
+				$(".popup").show().html(data);
+			}
+
+		});
+
+	});
+
+	</script>
+	
+	
+	<script type="text/javascript">
+
+	$("#email").keypress(function(){
+
+		var email = $("#email").val();
+		$.ajax({
+
+			url : "insert_data.php?email="+email,
+			success:function(data){
+
+				$("#messsage").html(data);
+
+			}
+
+		});
+
+	});
+
+	</script>
+	<script type="text/javascript">
+	$("#phone").click(function(){
+		var email = $("#email").val();
+		$.ajax({
+			url : "insert_data.php?email="+email,
+			success:function(data){
+				$("#messsage").html(data);
+			}
+		});
+	});
+	</script>
