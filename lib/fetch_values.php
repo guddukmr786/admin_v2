@@ -15,11 +15,16 @@ class FetchValues
   private $room_status;
   private $room_number;
   private $checkin_date;
+  private $checkin_id;
   private $start_date;
   private $end_date;
   private $dept;
   private $c_balance;
   private $depart;
+  private $company;
+  private $travel_id;
+  private $s_invoice_id;
+  private $party_id;
   function __construct()
   {
     $this->db = new Database();
@@ -448,6 +453,32 @@ class FetchValues
     return $results;
   }
 
+  public function getRoomDetails($id)
+  {
+    $this->id = $id;
+    $ground_query = $this->db->execute("SELECT * FROM room_details WHERE hotel_id='$id'");
+    $results = $this->db->getResults($ground_query);
+    $ground_floor = [];
+    $first_floor = [];
+    $second_floor = [];
+    $third_floor = [];
+    $fourth_floor = [];
+    foreach ($results as $key => $value) {
+      if ($value['floor'] == 0) {
+        array_push($ground_floor, $value);
+      } else if ($value['floor'] == 1) {
+        array_push($first_floor, $value);
+      } else if ($value['floor'] == 2) {
+        array_push($second_floor, $value);
+      } else if ($value['floor'] == 3) {
+        array_push($third_floor, $value);
+      } else if ($value['floor'] == 4) {
+        array_push($fourth_floor, $value);
+      }
+    }
+    return [$ground_floor, $first_floor, $second_floor, $third_floor, $fourth_floor];
+  }
+
   public function getGroundFloorRoom($id)
   {
     $this->id = $id;
@@ -811,14 +842,24 @@ class FetchValues
     return $results;
   }
 
-  public function getAllGuestNameByCheckinDateAndId($id)
+  // public function getAllGuestNameByCheckinDateAndId($id)
+  // {
+  //   $this->id = $id;
+  //   $this->checkin_date = $checkin_date;
+  //   $query = "SELECT name FROM echeckin_person_name_history WHERE checkin_id = '$id' AND checkin_date = '$checkin_date'";
+  //   $execute = $this->db->execute($query);
+  //   return $this->db->getResults($execute);
+  // }
+
+  public function getRoomStatus($hotel_id)
   {
-    $this->id = $id;
-    $this->checkin_date = $checkin_date;
-    $query = "SELECT name FROM echeckin_person_name_history WHERE checkin_id = '$id' AND checkin_date = '$checkin_date'";
+    $this->hotel_id = $hotel_id;
+    $query = "SELECT  room_status, COUNT(*) as room_status_count FROM room_details WHERE hotel_id = '$hotel_id' GROUP BY  room_status ";
     $execute = $this->db->execute($query);
-    return $this->db->getResults($execute);
+    $results = $this->db->getResults($execute);
+    return $results;
   }
+
 
   public function getNumberOfBookedRoom($hotel_id)
   {
