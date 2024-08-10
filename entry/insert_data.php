@@ -1,7 +1,7 @@
 <?php
 include_once('../include/config.php');
 require '../PHPMailer/src/PHPMailer.php';
-error_reporting(E_ERROR | E_PARSE);
+// error_reporting(E_ERROR | E_PARSE);
 
 use PHPMailer\PHPMailer\PHPMailer;
 
