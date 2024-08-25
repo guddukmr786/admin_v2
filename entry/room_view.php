@@ -1,4 +1,9 @@
 <?php
+if (substr_count($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip')) {
+  ob_start('ob_gzhandler');
+} else {
+  ob_start();
+}
 include('../include/header2.php');
 include('is_login.php');
 //Room details with status empty, booked or cleaning
@@ -51,68 +56,11 @@ if (isset($_GET['checkin_id'])) {
 }
 ?>
 <link rel="stylesheet" href="css/style.min.css">
-<style type="text/css">
-.blink-text {
-  animation-duration: 1200ms;
-  animation-name: blink;
-  animation-iteration-count: infinite;
-  animation-direction: alternate;
-  -webkit-animation: blink 1200ms infinite;
-}
-
-@keyframes blink {
-  from {
-    color: yellow;
-  }
-
-  to {
-    color: #33B530;
-  }
-}
-
-@-webkit-keyframes blink {
-  from {
-    color: yellow;
-  }
-
-  to {
-    color: #33B530;
-  }
-}
-
-.size {
-  font-size: 12px !important;
-  color: #667480 !important;
-}
-
-.email {
-  text-transform: lowercase;
-}
-
-/*Div blink css */
-.backgroundRed {
-  background: #428BCA;
-}
-
-.divtoBlink {
-  -webkit-transition: background 1.0s ease-in-out;
-  -ms-transition: background 1.0s ease-in-out;
-  transition: background 1.0s ease-in-out;
-}
-</style>
-<style type="text/css">
-#fname,
-#nextlocation,
-#lastlocation {
-  text-transform: capitalize;
-}
-</style>
 <div class="col-md-3">
   <div class="o-section">
     <div id="tabs">
       <!--Tab header-->
       <div class="tab">
-
         <button class="tablinks active" onclick="openArrivalHistroy(event, 'Today')">Today
           (<?php echo count($today_arrival_booking); ?>)
         </button>
@@ -126,33 +74,33 @@ if (isset($_GET['checkin_id'])) {
       <div id="Today" class="tabcontent active" style="display: block;">
         <div class="tab-scrollbar">
           <?php foreach ($today_arrival_booking as $t_a_booking) { ?>
-          <!--<a class="widget-list-link">-->
-          <a style="text-decoration: none;" href="#empty" class="widget-list-link" data-toggle="modal_quick_checkin"
-            id="<?php echo $t_a_booking['arrival_b_id']; ?>" class="btn">
-            <h5 style="color: #dc446e!important;"><?php echo $t_a_booking['guest_name']; ?>
-              <?php if ($t_a_booking['booking_mode'] == "Pay at hotel") { ?>
-              <span style="padding:5px 5px 5px 5px;color:green;background-color:yellow;float:right;">Pay at Hotel</span>
-              <?php } ?>
-            </h5>
-            <h5 style="color: #dc446e!important;"><b>No. of Room :-</b> <?php echo $t_a_booking['noof_room']; ?></h5>
-            <span class="size"><b>BookingID :-</b> <?php echo $t_a_booking['booking_id']; ?></span><br>
-            <span class="size"><b>Company :-</b> <?php echo $t_a_booking['compnay_name']; ?></span><br>
-            <span class="size email"><b>Email:-</b> <?php echo $t_a_booking['guest_email']; ?></span><br>
-            <span class="size"><b>Contact No:-</b> <?php echo $t_a_booking['guest_phone']; ?></span><br>
-            <span class="size"><b>Room Category:-</b> <?php echo $t_a_booking['room_category']; ?></span><br>
-            <span class="size"><b>Checkin Date:-</b>
-              <?php echo date('d M, Y', strtotime(str_replace('/', '-', $t_a_booking['checkin_date']))); ?></span><br>
-            <span class="size"><b>Checkout Date:-</b>
-              <?php echo date('d M, Y', strtotime(str_replace('/', '-', $t_a_booking['checkout_date']))); ?></span><br>
-            <?php if (!empty($t_a_booking['ex_ch_time'])) { ?>
-            <span class="size"><b style="color: green;"><b>Expected Checkin Time-</b>
-                <?php echo $t_a_booking['ex_ch_time']; ?></b><br>
-              <?php } ?>
-              <?php if ($t_a_booking['h_tax'] > 0) { ?>
-              <span class="size"><b style="color: green;"><b>GST Tax:-</b> <?php echo $t_a_booking['h_tax']; ?></b>
-                <?php  } ?>
-          </a>
-          <hr style="border:1px dotted #428BCA">
+            <!--<a class="widget-list-link">-->
+            <a style="text-decoration: none;" href="#empty" class="widget-list-link" data-toggle="modal_quick_checkin"
+              id="<?php echo $t_a_booking['arrival_b_id']; ?>" class="btn">
+              <h5 style="color: #dc446e!important;"><?php echo $t_a_booking['guest_name']; ?>
+                <?php if ($t_a_booking['booking_mode'] == "Pay at hotel") { ?>
+                  <span style="padding:5px 5px 5px 5px;color:green;background-color:yellow;float:right;">Pay at Hotel</span>
+                <?php } ?>
+              </h5>
+              <h5 style="color: #dc446e!important;"><b>No. of Room :-</b> <?php echo $t_a_booking['noof_room']; ?></h5>
+              <span class="size"><b>BookingID :-</b> <?php echo $t_a_booking['booking_id']; ?></span><br>
+              <span class="size"><b>Company :-</b> <?php echo $t_a_booking['compnay_name']; ?></span><br>
+              <span class="size email"><b>Email:-</b> <?php echo $t_a_booking['guest_email']; ?></span><br>
+              <span class="size"><b>Contact No:-</b> <?php echo $t_a_booking['guest_phone']; ?></span><br>
+              <span class="size"><b>Room Category:-</b> <?php echo $t_a_booking['room_category']; ?></span><br>
+              <span class="size"><b>Checkin Date:-</b>
+                <?php echo date('d M, Y', strtotime(str_replace('/', '-', $t_a_booking['checkin_date']))); ?></span><br>
+              <span class="size"><b>Checkout Date:-</b>
+                <?php echo date('d M, Y', strtotime(str_replace('/', '-', $t_a_booking['checkout_date']))); ?></span><br>
+              <?php if (!empty($t_a_booking['ex_ch_time'])) { ?>
+                <span class="size"><b style="color: green;"><b>Expected Checkin Time-</b>
+                    <?php echo $t_a_booking['ex_ch_time']; ?></b><br>
+                <?php } ?>
+                <?php if ($t_a_booking['h_tax'] > 0) { ?>
+                  <span class="size"><b style="color: green;"><b>GST Tax:-</b> <?php echo $t_a_booking['h_tax']; ?></b>
+                  <?php  } ?>
+            </a>
+            <hr style="border:1px dotted #428BCA">
           <?php } ?>
         </div>
       </div>
@@ -160,25 +108,25 @@ if (isset($_GET['checkin_id'])) {
       <div id="Tomorrow" class="tabcontent">
         <div class="tab-scrollbar">
           <?php foreach ($tomorrow_arrival_booking as $tom_a_booking) { ?>
-          <a class="widget-list-link" style="text-decoration: none;">
-            <h5 style="color: #dc446e!important;"><?php echo $tom_a_booking['guest_name']; ?>
-              <?php if ($tom_a_booking['booking_mode'] == "Pay at hotel") { ?>
-              <span style="padding:5px 5px 5px 5px;color:green;background-color:yellow;float:right;">Pay at Hotel</span>
-              <?php } ?>
-            </h5>
-            <h5 style="color: #dc446e!important;"><b>No. of Room :-</b> <?php echo $tom_a_booking['noof_room']; ?></h5>
-            <span class="size"><b>BookingID :-</b> <?php echo $tom_a_booking['booking_id']; ?></span></br>
-            <span class="size"><b>Company :-</b> <?php echo $tom_a_booking['compnay_name']; ?></span><br>
-            <span class="size"><b>Email:-</b> <?php echo $tom_a_booking['guest_email']; ?></span></br>
-            <span class="size"><b>Contact No:-</b> <?php echo $tom_a_booking['guest_phone']; ?></span></br>
-            <span class="size"><b>Room Category:-</b> <?php echo $tom_a_booking['room_category']; ?></span><br>
-            <span class="size"><b>Checkin Date:-</b>
-              <?php echo date('d M, Y', strtotime(str_replace('/', '-', $tom_a_booking['checkin_date']))); ?></span><br>
-            <span class="size"><b>Checkout Date:-</b>
-              <?php echo date('d M, Y', strtotime(str_replace('/', '-', $tom_a_booking['checkout_date']))); ?></span>
+            <a class="widget-list-link" style="text-decoration: none;">
+              <h5 style="color: #dc446e!important;"><?php echo $tom_a_booking['guest_name']; ?>
+                <?php if ($tom_a_booking['booking_mode'] == "Pay at hotel") { ?>
+                  <span style="padding:5px 5px 5px 5px;color:green;background-color:yellow;float:right;">Pay at Hotel</span>
+                <?php } ?>
+              </h5>
+              <h5 style="color: #dc446e!important;"><b>No. of Room :-</b> <?php echo $tom_a_booking['noof_room']; ?></h5>
+              <span class="size"><b>BookingID :-</b> <?php echo $tom_a_booking['booking_id']; ?></span></br>
+              <span class="size"><b>Company :-</b> <?php echo $tom_a_booking['compnay_name']; ?></span><br>
+              <span class="size"><b>Email:-</b> <?php echo $tom_a_booking['guest_email']; ?></span></br>
+              <span class="size"><b>Contact No:-</b> <?php echo $tom_a_booking['guest_phone']; ?></span></br>
+              <span class="size"><b>Room Category:-</b> <?php echo $tom_a_booking['room_category']; ?></span><br>
+              <span class="size"><b>Checkin Date:-</b>
+                <?php echo date('d M, Y', strtotime(str_replace('/', '-', $tom_a_booking['checkin_date']))); ?></span><br>
+              <span class="size"><b>Checkout Date:-</b>
+                <?php echo date('d M, Y', strtotime(str_replace('/', '-', $tom_a_booking['checkout_date']))); ?></span>
 
-          </a>
-          <hr>
+            </a>
+            <hr>
           <?php } ?>
         </div>
       </div>
@@ -186,24 +134,24 @@ if (isset($_GET['checkin_id'])) {
       <div id="Yesterday" class="tabcontent">
         <div class="tab-scrollbar">
           <?php foreach ($yesterday_booking as $yesterday_book) { ?>
-          <a class="widget-list-link" style="text-decoration: none;">
-            <h5 style="color: #dc446e!important;"><?php echo $yesterday_book['guest_name']; ?>
-              <?php if ($yesterday_book['booking_mode'] == "Pay at hotel") { ?>
-              <span style="padding:5px 5px 5px 5px;color:green;background-color:yellow;float:right;">Pay at Hotel</span>
-              <?php } ?>
-            </h5>
-            <h5 style="color: #dc446e!important;"><b>No. of Room :-</b> <?php echo $yesterday_book['noof_room']; ?></h5>
-            <span class="size"><b>BookingID :-</b> <?php echo $yesterday_book['booking_id']; ?></span></br>
-            <span class="size"><b>Company :-</b> <?php echo $yesterday_book['compnay_name']; ?></span><br>
-            <span class="size"><b>Email:-</b> <?php echo $yesterday_book['guest_email']; ?></span></br>
-            <span class="size"><b>Contact No:-</b> <?php echo $yesterday_book['guest_phone']; ?></span></br>
-            <span class="size"><b>Room Category:-</b> <?php echo $yesterday_book['room_category']; ?></span><br>
-            <span class="size"><b>Checkin Date:-</b>
-              <?php echo date('d M, Y', strtotime(str_replace('/', '-', $yesterday_book['checkin_date']))); ?></span><br>
-            <span class="size"><b>Checkout Date:-</b>
-              <?php echo date('d M, Y', strtotime(str_replace('/', '-', $yesterday_book['checkout_date']))); ?></span>
-          </a>
-          <hr>
+            <a class="widget-list-link" style="text-decoration: none;">
+              <h5 style="color: #dc446e!important;"><?php echo $yesterday_book['guest_name']; ?>
+                <?php if ($yesterday_book['booking_mode'] == "Pay at hotel") { ?>
+                  <span style="padding:5px 5px 5px 5px;color:green;background-color:yellow;float:right;">Pay at Hotel</span>
+                <?php } ?>
+              </h5>
+              <h5 style="color: #dc446e!important;"><b>No. of Room :-</b> <?php echo $yesterday_book['noof_room']; ?></h5>
+              <span class="size"><b>BookingID :-</b> <?php echo $yesterday_book['booking_id']; ?></span></br>
+              <span class="size"><b>Company :-</b> <?php echo $yesterday_book['compnay_name']; ?></span><br>
+              <span class="size"><b>Email:-</b> <?php echo $yesterday_book['guest_email']; ?></span></br>
+              <span class="size"><b>Contact No:-</b> <?php echo $yesterday_book['guest_phone']; ?></span></br>
+              <span class="size"><b>Room Category:-</b> <?php echo $yesterday_book['room_category']; ?></span><br>
+              <span class="size"><b>Checkin Date:-</b>
+                <?php echo date('d M, Y', strtotime(str_replace('/', '-', $yesterday_book['checkin_date']))); ?></span><br>
+              <span class="size"><b>Checkout Date:-</b>
+                <?php echo date('d M, Y', strtotime(str_replace('/', '-', $yesterday_book['checkout_date']))); ?></span>
+            </a>
+            <hr>
           <?php } ?>
         </div>
       </div>
@@ -239,105 +187,96 @@ if (isset($_GET['checkin_id'])) {
           else if ($value[0]['floor'] == '4')
             $floor_label = "Fourth Floor";
     ?>
-    <div class="row mt10">
-      <div class="col-md-12">
-        <?php if (!empty($msg)) { ?>
-        <span><?php echo $msg; ?></span>
-        <?php } ?>
+          <div class="row mt10">
+            <div class="col-md-12">
+              <?php if (!empty($msg)) { ?>
+                <span><?php echo $msg; ?></span>
+              <?php } ?>
 
-        <?php if (isset($_SESSION['success'])) { ?>
-        <span style="color:green;">
-          <b>
-            <?php
+              <?php if (isset($_SESSION['success'])) { ?>
+                <span style="color:green;">
+                  <b>
+                    <?php
                     echo $_SESSION['success'];
                     unset($_SESSION['success']);
                     ?>
-          </b>
-        </span>
-        <?php } elseif (isset($_SESSION['error'])) { ?>
-        <span style="color:red;"><b><?php echo $_SESSION['error'];
+                  </b>
+                </span>
+              <?php } elseif (isset($_SESSION['error'])) { ?>
+                <span style="color:red;"><b><?php echo $_SESSION['error'];
                                             unset($_SESSION['error']); ?></b></span>
-        <?php } ?>
-        <h3 class="heading"><?php echo $floor_label; ?></h3>
-        <?php foreach ($value as $ground_value) {
+              <?php } ?>
+              <h3 class="heading"><?php echo $floor_label; ?></h3>
+              <?php foreach ($value as $ground_value) {
                 $room_number = $ground_value['room_number'];
                 if ($ground_value['room_status'] == "booked") {
                   $guest_details = $obj->getRoomGuestDetails($room_number, $hotel_id);
                   $extended = $obj->getExtendedDateByCheckinId($guest_details['checkin_id'], $hotel_id);
-                  // echo "<pre>";
-                  // echo $guest_details['checkin_id'];
-                  // print_r($guest_details);
-                  // echo "---------------------";
-                  // echo "<pre>";
-                  // print_r("extend", $extended);
-                  // die;
+
                   if (!empty($extended)) {
                     $checkout_date_s = $extended['current_co_date'];
                   } else {
                     $checkout_date_s = $guest_details && $guest_details['current_co_date'];
                   }
-
                   $time = "10:00 PM";
                   $current_time = date('H:i A');
                   $current_date = date('Y-m-d');
-                  // echo $current_date;
-                  // echo $checkout_date_s;
-                  // die;
+
                   if (!empty($guest_details['id_proof'])) {
                     if (($current_date == $checkout_date_s) && ($current_time >= $time)) {
               ?>
-        <div class="col-md-2 rooms rooms_booked blink_div">
-          <h4 class="text-center room_text">
-            <div class="room_catg"><?php echo $ground_value['room_category']; ?></div>
-            <a href="room_guest_details.php?room_number=<?php echo $ground_value['room_number']; ?>"
-              data-toggle="tooltip" title="<?php echo $guest_details['name']; ?>"
-              id="<?php echo $ground_value['room_number']; ?>"><?php echo $ground_value['room_number']; ?></a>
-          </h4>
-        </div>
-        <?php } else { ?>
-        <div class="col-md-2 rooms rooms_booked">
-          <h4 class="text-center room_text">
-            <div class="room_catg"><?php echo $ground_value['room_category']; ?></div>
-            <a href="room_guest_details.php?room_number=<?php echo $ground_value['room_number']; ?>"
-              data-toggle="tooltip" title="<?php echo $guest_details['name']; ?>"
-              id="<?php echo $ground_value['room_number']; ?>"><?php echo $ground_value['room_number']; ?></a>
-          </h4>
-        </div>
-        <?php }
+                      <div class="col-md-2 rooms rooms_booked blink_div">
+                        <h4 class="text-center room_text">
+                          <div class="room_catg"><?php echo $ground_value['room_category']; ?></div>
+                          <a href="room_guest_details.php?room_number=<?php echo $ground_value['room_number']; ?>"
+                            data-toggle="tooltip" title="<?php echo $guest_details['name']; ?>"
+                            id="<?php echo $ground_value['room_number']; ?>"><?php echo $ground_value['room_number']; ?></a>
+                        </h4>
+                      </div>
+                    <?php } else { ?>
+                      <div class="col-md-2 rooms rooms_booked">
+                        <h4 class="text-center room_text">
+                          <div class="room_catg"><?php echo $ground_value['room_category']; ?></div>
+                          <a href="room_guest_details.php?room_number=<?php echo $ground_value['room_number']; ?>"
+                            data-toggle="tooltip" title="<?php echo $guest_details['name']; ?>"
+                            id="<?php echo $ground_value['room_number']; ?>"><?php echo $ground_value['room_number']; ?></a>
+                        </h4>
+                      </div>
+                    <?php }
                   } else { ?>
-        <div class="col-md-2 rooms rooms_booked">
-          <h4 class="text-center room_text">
-            <div class="room_catg"><?php echo $ground_value['room_category']; ?></div>
-            <a class="blink-text" href="room_guest_details.php?room_number=<?php echo $ground_value['room_number']; ?>"
-              data-toggle="tooltip" title="<?php echo $guest_details['name']; ?>"
-              id="<?php echo $ground_value['room_number']; ?>"><?php echo $ground_value['room_number']; ?></a>
-          </h4>
-        </div>
-        <?php } ?>
-        <?php } elseif ($ground_value['room_status'] == "empty") { ?>
-        <div class="col-md-2 rooms rooms_vacant">
-          <h4 class="text-center room_text">
-            <div class="room_catg"><?php echo $ground_value['room_category']; ?></div>
-            <a href="#empty" data-toggle="modal"
-              id="<?php echo $ground_value['room_number']; ?>"><?php echo $ground_value['room_number']; ?></a>
-          </h4>
-        </div>
-        <?php } elseif ($ground_value['room_status'] == "cleaning") { ?>
-        <div class="col-md-2 rooms rooms_ready">
-          <h4 class="text-center room_text">
-            <div class="room_catg"><?php echo $ground_value['room_category']; ?></div>
-            <a href="#ready" data-toggle="modal"
-              id="<?php echo $ground_value['room_number']; ?>"><?php echo $ground_value['room_number']; ?></a>
-          </h4>
-        </div>
-        <?php }
+                    <div class="col-md-2 rooms rooms_booked">
+                      <h4 class="text-center room_text">
+                        <div class="room_catg"><?php echo $ground_value['room_category']; ?></div>
+                        <a class="blink-text" href="room_guest_details.php?room_number=<?php echo $ground_value['room_number']; ?>"
+                          data-toggle="tooltip" title="<?php echo $guest_details['name']; ?>"
+                          id="<?php echo $ground_value['room_number']; ?>"><?php echo $ground_value['room_number']; ?></a>
+                      </h4>
+                    </div>
+                  <?php } ?>
+                <?php } elseif ($ground_value['room_status'] == "empty") { ?>
+                  <div class="col-md-2 rooms rooms_vacant">
+                    <h4 class="text-center room_text">
+                      <div class="room_catg"><?php echo $ground_value['room_category']; ?></div>
+                      <a href="#empty" data-toggle="modal"
+                        id="<?php echo $ground_value['room_number']; ?>"><?php echo $ground_value['room_number']; ?></a>
+                    </h4>
+                  </div>
+                <?php } elseif ($ground_value['room_status'] == "cleaning") { ?>
+                  <div class="col-md-2 rooms rooms_ready">
+                    <h4 class="text-center room_text">
+                      <div class="room_catg"><?php echo $ground_value['room_category']; ?></div>
+                      <a href="#ready" data-toggle="modal"
+                        id="<?php echo $ground_value['room_number']; ?>"><?php echo $ground_value['room_number']; ?></a>
+                    </h4>
+                  </div>
+              <?php }
               } ?>
 
-      </div>
-      <!--col-md-12-->
+            </div>
+            <!--col-md-12-->
 
-    </div>
-    <!--row-->
+          </div>
+          <!--row-->
     <?php }
       }
     }
@@ -385,33 +324,33 @@ if (isset($_GET['checkin_id'])) {
         $all_guest = $obj->getAllGuestNameByCheckinId($checkin_id, $checkin_date);
         $extended = $obj->getExtendedDateByCheckinId($checkin_id, $hotel_id);
       ?>
-      <li cir-item-name><a>
-          <h5 style="color: #dc446e!important;">Room No. - <?php echo $today_chec['room_number']; ?></h5>
-        </a></li>
-      <li class="size"><a><?php echo $today_chec['name']; ?></a></li>
+        <li cir-item-name><a>
+            <h5 style="color: #dc446e!important;">Room No. - <?php echo $today_chec['room_number']; ?></h5>
+          </a></li>
+        <li class="size"><a><?php echo $today_chec['name']; ?></a></li>
 
-      <?php
+        <?php
         if (!empty($all_guest)) {
           foreach ($all_guest as $g_name) {
             $name = $g_name['name_title'] . ' ' . $g_name['name'];
         ?>
-      <li class="size"><a><?php echo $name; ?></a></li>
-      <?php }
+            <li class="size"><a><?php echo $name; ?></a></li>
+        <?php }
         } ?>
-      <li class="size"><?php echo $today_chec['compnay_name']; ?></li>
-      <li class="size"><?php echo $today_chec['phone']; ?></li>
-      <li class="size"><?php echo $today_chec['email']; ?></li>
-      <?php if (!empty($extended)) { ?>
+        <li class="size"><?php echo $today_chec['compnay_name']; ?></li>
+        <li class="size"><?php echo $today_chec['phone']; ?></li>
+        <li class="size"><?php echo $today_chec['email']; ?></li>
+        <?php if (!empty($extended)) { ?>
 
-      <li class="size">
-        <?php echo date('d M, Y', strtotime(str_replace('/', '-', $extended['checkin_date']))) . ' - ' . date('d M, Y', strtotime(str_replace('/', '-', $extended['checkout_date']))); ?>
-      </li>
-      <?php } else { ?>
-      <li class="size">
-        <?php echo date('d M, Y', strtotime(str_replace('/', '-', $today_chec['checkin_date']))) . ' - ' . date('d M, Y', strtotime(str_replace('/', '-', $today_chec['checkout_date']))); ?>
-      </li>
-      <?php } ?>
-      <hr style="border: 1px dotted #428BCA;">
+          <li class="size">
+            <?php echo date('d M, Y', strtotime(str_replace('/', '-', $extended['checkin_date']))) . ' - ' . date('d M, Y', strtotime(str_replace('/', '-', $extended['checkout_date']))); ?>
+          </li>
+        <?php } else { ?>
+          <li class="size">
+            <?php echo date('d M, Y', strtotime(str_replace('/', '-', $today_chec['checkin_date']))) . ' - ' . date('d M, Y', strtotime(str_replace('/', '-', $today_chec['checkout_date']))); ?>
+          </li>
+        <?php } ?>
+        <hr style="border: 1px dotted #428BCA;">
       <?php } ?>
     </ul>
   </div>
@@ -446,10 +385,10 @@ if (isset($_GET['checkin_id'])) {
         <div class="field">
           <label class="main">Full Name<span style="color:red;"> * </span>:</label>
           <?php if (isset($_SESSION['fname'])) { ?>
-          <input name="fname[]" id="fname" value="<?php echo $_SESSION['fname'][0]; ?>" class="ipt" type="text"
-            placeholder="Enter Your Full Name">
+            <input name="fname[]" id="fname" value="<?php echo $_SESSION['fname'][0]; ?>" class="ipt" type="text"
+              placeholder="Enter Your Full Name">
           <?php  } else { ?>
-          <input name="fname[]" id="fname" class="ipt" type="text" placeholder="Enter Your Full Name">
+            <input name="fname[]" id="fname" class="ipt" type="text" placeholder="Enter Your Full Name">
           <?php } ?>
         </div>
         <div class="field">
@@ -459,11 +398,11 @@ if (isset($_GET['checkin_id'])) {
             foreach ($genders as $gender) {
               if (isset($_SESSION['gender'])) {
             ?>
-            <option value="<?php echo $gender; ?>"
-              <?php if ($_SESSION['gender'][0] == $gender) echo 'selected="selected"'; ?>><?php echo $gender; ?>
-            </option>
-            <?php } else { ?>
-            <option value="<?php echo $gender; ?>"><?php echo $gender; ?></option>
+                <option value="<?php echo $gender; ?>"
+                  <?php if ($_SESSION['gender'][0] == $gender) echo 'selected="selected"'; ?>><?php echo $gender; ?>
+                </option>
+              <?php } else { ?>
+                <option value="<?php echo $gender; ?>"><?php echo $gender; ?></option>
             <?php }
             } ?>
           </select>
@@ -477,42 +416,42 @@ if (isset($_GET['checkin_id'])) {
         $count = count($_SESSION['fname']);
         if ($count > $i) {
           for ($y = 1; $y < $count; $y++) {  ?>
-      <span id="wrapelement<?php echo $i; ?>">
-        <div class="field">
-          <label class="main">Full Name<span style="color:red;"> * </span>:</label>
-          <?php if (isset($_SESSION['fname'])) { ?>
-          <input name="fname[]" id="fname" value="<?php echo $_SESSION['fname'][$i]; ?>" class="ipt" type="text"
-            placeholder="Enter Your Full Name">
-          <?php  } else { ?>
-          <input name="fname[]" id="fname" value="" class="ipt_small" type="text" placeholder="Enter Your Full Name">
-          <?php } ?>
-        </div>
-        <div class="field">
-          <label class="main">Gender:</label>
-          <select name="gender[]" id="selectt" class="gender" style="width:278px!important;">
-            <?php $genders = array('Male', 'Female', 'Other');
+            <span id="wrapelement<?php echo $i; ?>">
+              <div class="field">
+                <label class="main">Full Name<span style="color:red;"> * </span>:</label>
+                <?php if (isset($_SESSION['fname'])) { ?>
+                  <input name="fname[]" id="fname" value="<?php echo $_SESSION['fname'][$i]; ?>" class="ipt" type="text"
+                    placeholder="Enter Your Full Name">
+                <?php  } else { ?>
+                  <input name="fname[]" id="fname" value="" class="ipt_small" type="text" placeholder="Enter Your Full Name">
+                <?php } ?>
+              </div>
+              <div class="field">
+                <label class="main">Gender:</label>
+                <select name="gender[]" id="selectt" class="gender" style="width:278px!important;">
+                  <?php $genders = array('Male', 'Female', 'Other');
 
                   foreach ($genders as $gender) {
                     if (isset($_SESSION['gender'])) {
                       //foreach ( $_SESSION['gender'] as $SSgender ) {
                   ?>
-            <option value="<?php echo $gender; ?>"
-              <?php if ($gender == $_SESSION['gender'][$i]) echo 'selected="selected"'; ?>><?php echo $gender; ?>
-            </option>
-            <?php } else { ?>
-            <option value="<?php echo $gender; ?>"><?php echo $gender; ?></option>
-            <?php }
+                      <option value="<?php echo $gender; ?>"
+                        <?php if ($gender == $_SESSION['gender'][$i]) echo 'selected="selected"'; ?>><?php echo $gender; ?>
+                      </option>
+                    <?php } else { ?>
+                      <option value="<?php echo $gender; ?>"><?php echo $gender; ?></option>
+                  <?php }
                   }  ?>
-          </select>
-        </div>
-      </span>
-      <?php ++$i; ?>
-      <?php } ?>
-      <span id="wrapelement<?php echo $i; ?>"></span>
-      <input type="hidden" id="i" value="<?php echo $i; ?>">
-      <?php }
+                </select>
+              </div>
+            </span>
+            <?php ++$i; ?>
+          <?php } ?>
+          <span id="wrapelement<?php echo $i; ?>"></span>
+          <input type="hidden" id="i" value="<?php echo $i; ?>">
+        <?php }
       } else { ?>
-      <span id="wrapelement1"></span>
+        <span id="wrapelement1"></span>
       <?php  } ?>
     </div>
     <div style="margin-left:520px" class="field buttons">
@@ -577,10 +516,10 @@ if (isset($_GET['checkin_id'])) {
         foreach ($purpouses as $purpouse) {
           if (isset($_SESSION['purpose'])) {
         ?>
-        <option value="<?php echo $purpouse; ?>"
-          <?php if ($_SESSION['purpose'] == $purpouse) echo 'selected="selected"'; ?>><?php echo $purpouse; ?></option>
-        <?php } else { ?>
-        <option value="<?php echo $purpouse; ?>"><?php echo $purpouse; ?></option>
+            <option value="<?php echo $purpouse; ?>"
+              <?php if ($_SESSION['purpose'] == $purpouse) echo 'selected="selected"'; ?>><?php echo $purpouse; ?></option>
+          <?php } else { ?>
+            <option value="<?php echo $purpouse; ?>"><?php echo $purpouse; ?></option>
         <?php }
         } ?>
       </select>
@@ -626,578 +565,545 @@ if (isset($_GET['checkin_id'])) {
 </div>
 <?php include('../include/footer.php'); ?>
 
-<script src="js/quantity-bt.js" defer></script>
-<script src="js/bootstrap-datepicker.js" defer></script>
-<script type="text/javascript" src="js/save_entry_fromdata.js" defer></script>
-<!--<script type="text/javascript" src="js/save_hotel_id.js"></script>-->
 <!--url replacing -->
 <script type="text/javascript" defer>
-//replace white space
-$(function() {
-  $('#phone').bind('input', function() {
-    $(this).val(function(_, v) {
-      return v.replace(/\s+/g, '');
+  //replace white space
+  $(function() {
+    $('#phone').bind('input', function() {
+      $(this).val(function(_, v) {
+        return v.replace(/\s+/g, '');
+      });
     });
   });
-});
 
 
-$(".hotel").change(function() {
-  var hotel_id = $(this).attr("value");
-  $.ajax({
-    url: "save_hotel_id.php?hotel_id=" + hotel_id,
-    success: function(data) {
-      window.location.href = 'room_view.php';
-    }
-  });
-});
-
-
-$("#advance_btn").click(function(e) {
-  var formData = $("#advnce_form").serialize();
-  $.ajax({
-    url: 'insert_data.php?type=add_room_advance',
-    type: 'post',
-    data: formData,
-    success: function(data) {
-      if (data == 0) {
-        $("#add_v").html("<div class='alert alert-success'>Your data has been saved.</div>");
-      } else {
-        $("#add_v").html("<div class='alert alert-danger'>Error please try again later.</div>");
-      }
-
-    }
-  });
-});
-
-$('#advance_btn').click(function(e) {
-
-  var amount = $('#amount');
-  var room_num = $('#room_num');
-
-  if (!amount.val()) {
-    $('#amount').css("border", "1px solid red");
-    $('#amount').focus();
-    e.preventDefault();
-    //return false;
-  }
-
-  if (!room_num.val()) {
-    $('#room_num').css("border", "1px solid red");
-    $('#room_num').focus();
-    e.preventDefault();
-    //return false;
-  }
-});
-
-$('.room_summary').click(function() {
-  var room_number = $("#room_number").val();
-  var type = $(this).attr('title');
-  if (room_number) {
+  $(".hotel").change(function() {
+    var hotel_id = $(this).attr("value");
     $.ajax({
-      url: 'check_room_is_booked.php?room_number=' + room_number + '&&type=' + type,
-      success: function(res) {
-        if (res == 0) {
-          window.location.href = 'add_summary.php?room_number=' + room_number;
-        } else if (res == 2) {
-          window.location.href = 'bill.php?room_number=' + room_number;
-        } else {
-          $("#erro_ch").show().html('<div class="alert alert-danger">This Room is Empty</div>');
-        }
-      }
-    });
-  }
-});
-
-$(document).ready(function() {
-  var room_number = localStorage.getItem('room_number')
-  $('a[title=""]').attr('title', room_number);
-});
-$("a[data-toggle=modal]").click(function() {
-  var room_number = $(this).attr('id');
-  localStorage.setItem('room_number', room_number);
-  $('a[href="?room_status=empty"]').attr('href', "?room_status=empty&room_number=" + room_number);
-  $('form[action="insert_data.php"]').attr('action', "insert_data.php?room_number=" + room_number);
-  $('a[title=""]').attr('title', room_number);
-
-});
-
-$(document).ready(function() {
-  $("#checkin").datepicker({
-    minDate: "01/30/2012",
-    maxDate: "01/30/2012"
-  });
-  $("#checkout").datepicker({
-    beforeShow: setminDate
-  });
-
-  var start1 = $('#checkin');
-
-  function setminDate() {
-    var p = start1.datepicker('getDate');
-    if (p) {
-      var k = "01/30/2012";
-      return {
-        minDate: p,
-        maxDate: k
-      }
-    };
-  }
-
-  function clearEndDate(dateText, inst) {
-    end1.val('');
-  }
-});
-$(function() {
-  $("#checkout").datepicker({
-    dateFormat: 'mm/dd/yyyy'
-  });
-  $("#checkin").datepicker({
-    dateFormat: 'mm/dd/yyyy'
-  });
-});
-
-
-$('#checkout').on('change', function() {
-  var start = $('#checkin').datepicker('getDate');
-  var end = $('#checkout').datepicker('getDate');
-  var days = (end - start) / 1000 / 60 / 60 / 24;
-  $("#nights").val(days);
-});
-
-$('#nights').click(function() {
-  var start = $('#checkin').datepicker('getDate');
-  var end = $('#checkout').datepicker('getDate');
-  var days = (end - start) / 1000 / 60 / 60 / 24;
-  $("#nights").val(days);
-});
-
-$(document).ready(function() {
-  var var_i = $('#i');
-  if (var_i.val()) {
-    var i = var_i.val();
-    $("#delete_row").show();
-  } else {
-    var i = 1;
-    $("#delete_row").hide();
-  }
-
-
-  $("#add_row").click(function() {
-    $('#wrapelement' + i).html(
-      '<div class="field"><label class="main">Full Name:</label><input name="fname[]" id="fname" class="ipt" type="text" placeholder="Enter Your Full Name" ></div><div class="field"><label class="main">Gender:</label><select name="gender[]" id="selectt" class="gender" style="width: 278px!important;"><option value="Male">Male</option><option value="Female">Female</option><option value="Other">Other</option></select></div><div class="clear"></div>'
-    );
-    $('.wrapagain').append('<span id="wrapelement' + (i + 1) + '"></span>');
-    i++;
-    $("#delete_row").show();
-  });
-  $("#delete_row").click(function() {
-    if (i <= 2) {
-      $("#delete_row").hide();
-    }
-    if (i > 1) {
-      $("#wrapelement" + (i - 1)).html('');
-      i--;
-    }
-  });
-});
-
-$(document).on("keyup", "#email,#phone", function() {
-  var email = $("#email").val();
-  if (email) {
-    $.ajax({
-      url: 'validate.php?email=' + email,
+      url: "save_hotel_id.php?hotel_id=" + hotel_id,
       success: function(data) {
-        //alert(data);
-        if (data == 1) {
-          $("#messsage").hide(data);
-          $("#email_msg").show().html(
-            "<span style='margin-left:120px;font-size:10px;color:red;'>invalid Email-ID! please enter your valid Email-ID</span>"
-          );
-          return false;
-        } else {
-          $("#email_msg").hide();
-          $.ajax({
-            url: 'insert_data.php?email=' + email,
-            success: function(data) {
-              $("#messsage").show().html(data);
-            }
-          });
-        }
-      }
-    });
-  } else {
-    $("#email_msg").hide();
-  }
-});
-
-$(document).on("click", "#email,#phone", function() {
-  var email = $("#email").val();
-  if (email) {
-    $.ajax({
-      url: 'validate.php?email=' + email,
-      success: function(data) {
-        if (data == 1) {
-          $("#messsage").hide(data);
-          $("#email_msg").show().html(
-            "<span style='margin-left:120px;font-size:10px;color:red;'>invalid Email-ID! please enter your valid Email-ID</span>"
-          );
-          return false;
-        } else {
-          $("#email_msg").hide();
-          $.ajax({
-            url: 'insert_data.php?email=' + email,
-            success: function(data) {
-              $("#messsage").show().html(data);
-            }
-          });
-        }
-      }
-    });
-  } else {
-    $("#email_msg").hide();
-  }
-});
-
-$(document).on("keyup", "#email,#phone", function() {
-  var phone = $("#phone").val();
-  if (phone) {
-    $.ajax({
-      url: 'validate.php?phone=' + phone,
-      success: function(data) {
-        if (data == 1) {
-          $("#messsage").hide(data);
-          $("#phone_error").show().html(
-            "<span style='font-size:10px;color:red;'>Invalid Phone Number.. Please enter your valid Phone Number</span>"
-          );
-          return false;
-        } else {
-          $("#phone_error").hide();
-          $.ajax({
-            url: 'insert_data.php?phone=' + phone,
-            success: function(data) {
-              //$("#messsage").show().html(data);
-            }
-          });
-        }
-      }
-    });
-  } else {
-    $("#phone_error").hide();
-  }
-});
-
-$(document).on("click", "#email,#phone", function() {
-  var phone = $("#phone").val();
-  if (phone) {
-    $.ajax({
-      url: 'validate.php?phone=' + phone,
-      success: function(data) {
-        if (data == 1) {
-          $("#messsage").hide(data);
-          $("#phone_error").show().html(
-            "<span style='font-size:10px;color:red;'>Invalid Phone Number.. Please enter your valid Phone Number</span>"
-          );
-          return false;
-        } else {
-          $("#phone_error").hide();
-          $.ajax({
-            url: 'insert_data.php?phone=' + phone,
-            success: function(data) {
-              //$("#messsage").show().html(data);
-            }
-          });
-        }
-      }
-    });
-  } else {
-    $("#phone_error").hide();
-  }
-});
-
-$(document).ready(function() {
-
-  $('#fname,#email,#phone,.purpose,#checkin,#checkout,#lastlocation,#nextlocation,#serial,#room_number').click(
-    function() {
-      $('#fname').css("border", "");
-      $('#email').css("border", "");
-      $('#phone').css("border", "");
-      $('.purpose').css("border", "");
-      $('#checkin').css("border", "");
-      $('#checkout').css("border", "");
-      $('#lastlocation').css("border", "");
-      $('#nextlocation').css("border", "");
-      $('#serial').css("border", "");
-      $('#room_number').css("border", "");
-    })
-
-});
-
-
-$('a[href="##"]').on('click', function(e) {
-
-  var fname = $('#fname');
-  var email = $('#email');
-  var phone = $('#phone');
-  var purpose = $('.purpose');
-  var checkin = $('#checkin');
-  var checkout = $('#checkout');
-  var nights = $('#nights');
-  var lastlocation = $('#lastlocation');
-  var nextlocation = $('#nextlocation');
-  var serial = $('#serial');
-
-  if (!serial.val()) {
-    $('#serial').css("border", "1px solid red");
-    $('#serial').focus();
-    e.preventDefault();
-    //return false;
-  }
-
-  if (!fname.val()) {
-    $('#fname').css("border", "1px solid red");
-    $('#fname').focus();
-    e.preventDefault();
-    //return false;
-  }
-  if (!email.val()) {
-    $('#email').css("border", "1px solid red");
-    $('#email').focus();
-    e.preventDefault();
-    //return false;
-  }
-
-  if (!phone.val()) {
-    $('#phone').css("border", "1px solid red");
-    $('#phone').focus();
-    e.preventDefault();
-    //return false;
-  }
-
-  if (!checkin.val()) {
-    $('#checkin').css("border", "1px solid red");
-    $('#checkin').focus();
-    e.preventDefault();
-    //return false;
-  }
-  if (!checkout.val()) {
-    $('#checkout').css("border", "1px solid red");
-    $('#checkout').focus();
-    e.preventDefault();
-    //return false;
-  }
-  if (!nights.val()) {
-    $('#nights').css("border", "1px solid red");
-    $('#nights').focus();
-    e.preventDefault();
-    //return false;
-  }
-  if (!lastlocation.val()) {
-    $('#lastlocation').css("border", "1px solid red");
-    $('#lastlocation').focus();
-    e.preventDefault();
-    //return false;
-  }
-  if (!nextlocation.val()) {
-    $('#nextlocation').css("border", "1px solid red");
-    $('#nextlocation').focus();
-    e.preventDefault();
-    //return false;
-  }
-  if (!purpose.val()) {
-    $('.purpose').css("border", "1px solid red");
-    $('.purpose').focus();
-    e.preventDefault();
-    //return false;
-  }
-
-  if (fname.val()) {
-    $('#fname').css("border", "");
-  }
-
-  if (email.val()) {
-    $('#email').css("border", "");
-  }
-
-  if (phone.val()) {
-    $('#phone').css("border", "");
-  }
-
-  if (checkin.val()) {
-    $('#checkin').css("border", "");
-  }
-
-  if (checkout.val()) {
-    $('#checkout').css("border", "");
-  }
-
-  if (lastlocation.val()) {
-    $('#lastlocation').css("border", "");
-  }
-  if (nextlocation.val()) {
-    $('#nextlocation').css("border", "");
-  }
-  if (purpose.val()) {
-    $('.purpose').css("border", "");
-    $('a[href="##"]').attr('href', '#');
-  }
-
-
-});
-
-$(".room_summary").on('click', function(e) {
-  var room_number = $("#room_number");
-  if (!room_number.val()) {
-    $('#room_number').css("border", "1px solid red");
-    $('#room_number').focus();
-    e.preventDefault();
-    //return false;
-  }
-});
-
-$('a[id="submitform"]').click(function() {
-  var room_number = $(this).attr('title');
-  $.ajax({
-    url: 'insert_data.php?type=quickbooking_direct&room_number=' + room_number,
-    type: 'POST',
-    data: $('form').serialize(),
-    cache: false,
-    success: function(data) {
-      if (data == 'Error! All field are required.') {
-        alert(data)
-      } else if (data == 'success') {
-        //$.session.remove("room_number");
-        window.location.href = 'room_view.php';
-      } else {
         window.location.href = 'room_view.php';
       }
+    });
+  });
+  $("#advance_btn").click(function(e) {
+    var formData = $("#advnce_form").serialize();
+    $.ajax({
+      url: 'insert_data.php?type=add_room_advance',
+      type: 'post',
+      data: formData,
+      success: function(data) {
+        if (data == 0) {
+          $("#add_v").html("<div class='alert alert-success'>Your data has been saved.</div>");
+        } else {
+          $("#add_v").html("<div class='alert alert-danger'>Error please try again later.</div>");
+        }
+
+      }
+    });
+  });
+
+  $('#advance_btn').click(function(e) {
+    var amount = $('#amount');
+    var room_num = $('#room_num');
+    if (!amount.val()) {
+      $('#amount').css("border", "1px solid red");
+      $('#amount').focus();
+      e.preventDefault();
+    }
+    if (!room_num.val()) {
+      $('#room_num').css("border", "1px solid red");
+      $('#room_num').focus();
+      e.preventDefault();
     }
   });
-});
-
-$(".nametitle").change(function() {
-  var nametitle = $(this).attr('value');
-  if (nametitle == 'Mrs' || nametitle == 'Miss') {
-    $(".gender").val('Female');
-  } else {
-    $(".gender").val('Male');
-  }
-});
-
-$(".gender").change(function() {
-  var gender = $(this).attr('value');
-  if (gender == 'Female') {
-    $(".nametitle").val('Mrs');
-  } else {
-    $(".nametitle").val('Mr');
-  }
-});
-
-$('#email,#phone,.purpose,#checkin,#checkout,#lastlocation,#nextlocation').click(function() {
-  var formData = $("#checkin_form").serialize();
-  $.ajax({
-    type: "POST",
-    url: 'insert_data.php?type=save_formdata',
-    data: formData,
-    success: function(data) {}
-  });
-
-});
-
-$("select.hotel").change(function(e) {
-  var $this = $(this);
-  if (!$this.hasClass('active')) {
-    $this.addClass('active');
-  }
-  e.preventDefault();
-});
-
-// <!-- searching script here-->
-
-$(document).ready(function() {
-  $("#search_guest").on('click', function() {
-    var query_value = $('input#name').val();
-    if (query_value !== '') {
+  $('.room_summary').click(function() {
+    var room_number = $("#room_number").val();
+    var type = $(this).attr('title');
+    if (room_number) {
       $.ajax({
-        type: "POST",
-        url: "search_guest_details.php?type=guest_details",
-        data: {
-          query: query_value
-        },
-        cache: false,
-        success: function(html) {
-          $(".main_ul").html(html);
+        url: 'check_room_is_booked.php?room_number=' + room_number + '&&type=' + type,
+        success: function(res) {
+          if (res == 0) {
+            window.location.href = 'add_summary.php?room_number=' + room_number;
+          } else if (res == 2) {
+            window.location.href = 'bill.php?room_number=' + room_number;
+          } else {
+            $("#erro_ch").show().html('<div class="alert alert-danger">This Room is Empty</div>');
+          }
         }
       });
     }
-    return false;
   });
 
-  $("input#name").on("keyup", function(e) {
-    var search_string = $('input#name').val();
-    if (search_string == '') {
-      $(".main_ul").show();
+  $(document).ready(function() {
+    var room_number = localStorage.getItem('room_number')
+    $('a[title=""]').attr('title', room_number);
+  });
+  $("a[data-toggle=modal]").click(function() {
+    var room_number = $(this).attr('id');
+    localStorage.setItem('room_number', room_number);
+    $('a[href="?room_status=empty"]').attr('href', "?room_status=empty&room_number=" + room_number);
+    $('form[action="insert_data.php"]').attr('action', "insert_data.php?room_number=" + room_number);
+    $('a[title=""]').attr('title', room_number);
+
+  });
+
+  $(document).ready(function() {
+    $("#checkin").datepicker({
+      minDate: "01/30/2012",
+      maxDate: "01/30/2012"
+    });
+    $("#checkout").datepicker({
+      beforeShow: setminDate
+    });
+
+    var start1 = $('#checkin');
+
+    function setminDate() {
+      var p = start1.datepicker('getDate');
+      if (p) {
+        var k = "01/30/2012";
+        return {
+          minDate: p,
+          maxDate: k
+        }
+      };
+    }
+
+    function clearEndDate(dateText, inst) {
+      end1.val('');
     }
   });
-});
+  $(function() {
+    $("#checkout").datepicker({
+      dateFormat: 'mm/dd/yyyy'
+    });
+    $("#checkin").datepicker({
+      dateFormat: 'mm/dd/yyyy'
+    });
+  });
 
-// <!--searching script end here-->
+
+  $('#checkout').on('change', function() {
+    var start = $('#checkin').datepicker('getDate');
+    var end = $('#checkout').datepicker('getDate');
+    var days = (end - start) / 1000 / 60 / 60 / 24;
+    $("#nights").val(days);
+  });
+
+  $('#nights').click(function() {
+    var start = $('#checkin').datepicker('getDate');
+    var end = $('#checkout').datepicker('getDate');
+    var days = (end - start) / 1000 / 60 / 60 / 24;
+    $("#nights").val(days);
+  });
+
+  $(document).ready(function() {
+    var var_i = $('#i');
+    if (var_i.val()) {
+      var i = var_i.val();
+      $("#delete_row").show();
+    } else {
+      var i = 1;
+      $("#delete_row").hide();
+    }
 
 
-// <!--tab style-->
+    $("#add_row").click(function() {
+      $('#wrapelement' + i).html(
+        '<div class="field"><label class="main">Full Name:</label><input name="fname[]" id="fname" class="ipt" type="text" placeholder="Enter Your Full Name" ></div><div class="field"><label class="main">Gender:</label><select name="gender[]" id="selectt" class="gender" style="width: 278px!important;"><option value="Male">Male</option><option value="Female">Female</option><option value="Other">Other</option></select></div><div class="clear"></div>'
+      );
+      $('.wrapagain').append('<span id="wrapelement' + (i + 1) + '"></span>');
+      i++;
+      $("#delete_row").show();
+    });
+    $("#delete_row").click(function() {
+      if (i <= 2) {
+        $("#delete_row").hide();
+      }
+      if (i > 1) {
+        $("#wrapelement" + (i - 1)).html('');
+        i--;
+      }
+    });
+  });
 
-// var myTabs = tabs({
-//   el: '#tabs',
-//   tabNavigationLinks: '.c-tabs-nav__link',
-//   tabContentContainers: '.c-tab'
-// });
-
-// myTabs.init();
-
-$(function() {
-  $("#tabs").tabs({
-    el: '#tabs',
-    tabNavigationLinks: '.c-tabs-nav__link',
-    tabContentContainers: '.c-tab'
-  }).init(); // Initialize tabs
-});
-
-//Tab function
-function openArrivalHistroy(evt, day) {
-  var i, tabcontent, tablinks;
-  tabcontent = document.getElementsByClassName("tabcontent");
-  for (i = 0; i < tabcontent.length; i++) {
-    tabcontent[i].style.display = "none";
-  }
-  tablinks = document.getElementsByClassName("tablinks");
-  for (i = 0; i < tablinks.length; i++) {
-    tablinks[i].className = tablinks[i].className.replace(" active", "");
-  }
-  document.getElementById(day).style.display = "block";
-  evt.currentTarget.className += " active";
-}
-
-$('a[data-toggle="modal_quick_checkin"]').click(function() {
-  var arrival_b_id = $(this).attr('id');
-  $.ajax({
-    url: 'quick_check_in.php?arrival_b_id=' + arrival_b_id,
-    success: function(data) {
-      $(".popup1").show().html(data);
+  $(document).on("keyup", "#email,#phone", function() {
+    var email = $("#email").val();
+    if (email) {
+      $.ajax({
+        url: 'validate.php?email=' + email,
+        success: function(data) {
+          //alert(data);
+          if (data == 1) {
+            $("#messsage").hide(data);
+            $("#email_msg").show().html(
+              "<span style='margin-left:120px;font-size:10px;color:red;'>invalid Email-ID! please enter your valid Email-ID</span>"
+            );
+            return false;
+          } else {
+            $("#email_msg").hide();
+            $.ajax({
+              url: 'insert_data.php?email=' + email,
+              success: function(data) {
+                $("#messsage").show().html(data);
+              }
+            });
+          }
+        }
+      });
+    } else {
+      $("#email_msg").hide();
     }
   });
-});
+
+  $(document).on("click", "#email,#phone", function() {
+    var email = $("#email").val();
+    if (email) {
+      $.ajax({
+        url: 'validate.php?email=' + email,
+        success: function(data) {
+          if (data == 1) {
+            $("#messsage").hide(data);
+            $("#email_msg").show().html(
+              "<span style='margin-left:120px;font-size:10px;color:red;'>invalid Email-ID! please enter your valid Email-ID</span>"
+            );
+            return false;
+          } else {
+            $("#email_msg").hide();
+            $.ajax({
+              url: 'insert_data.php?email=' + email,
+              success: function(data) {
+                $("#messsage").show().html(data);
+              }
+            });
+          }
+        }
+      });
+    } else {
+      $("#email_msg").hide();
+    }
+  });
+
+  $(document).on("keyup", "#email,#phone", function() {
+    var phone = $("#phone").val();
+    if (phone) {
+      $.ajax({
+        url: 'validate.php?phone=' + phone,
+        success: function(data) {
+          if (data == 1) {
+            $("#messsage").hide(data);
+            $("#phone_error").show().html(
+              "<span style='font-size:10px;color:red;'>Invalid Phone Number.. Please enter your valid Phone Number</span>"
+            );
+            return false;
+          } else {
+            $("#phone_error").hide();
+            $.ajax({
+              url: 'insert_data.php?phone=' + phone,
+              success: function(data) {
+                //$("#messsage").show().html(data);
+              }
+            });
+          }
+        }
+      });
+    } else {
+      $("#phone_error").hide();
+    }
+  });
+
+  $(document).on("click", "#email,#phone", function() {
+    var phone = $("#phone").val();
+    if (phone) {
+      $.ajax({
+        url: 'validate.php?phone=' + phone,
+        success: function(data) {
+          if (data == 1) {
+            $("#messsage").hide(data);
+            $("#phone_error").show().html(
+              "<span style='font-size:10px;color:red;'>Invalid Phone Number.. Please enter your valid Phone Number</span>"
+            );
+            return false;
+          } else {
+            $("#phone_error").hide();
+            $.ajax({
+              url: 'insert_data.php?phone=' + phone,
+              success: function(data) {
+                //$("#messsage").show().html(data);
+              }
+            });
+          }
+        }
+      });
+    } else {
+      $("#phone_error").hide();
+    }
+  });
+
+  $(document).ready(function() {
+
+    $('#fname,#email,#phone,.purpose,#checkin,#checkout,#lastlocation,#nextlocation,#serial,#room_number').click(
+      function() {
+        $('#fname').css("border", "");
+        $('#email').css("border", "");
+        $('#phone').css("border", "");
+        $('.purpose').css("border", "");
+        $('#checkin').css("border", "");
+        $('#checkout').css("border", "");
+        $('#lastlocation').css("border", "");
+        $('#nextlocation').css("border", "");
+        $('#serial').css("border", "");
+        $('#room_number').css("border", "");
+      })
+
+  });
 
 
-//div blink script
-var $div2blink = $(".blink_div"); // Save reference, only look this item up once, then save
-var backgroundInterval = setInterval(function() {
-  $div2blink.toggleClass("backgroundRed");
-}, 300)
+  $('a[href="##"]').on('click', function(e) {
+
+    var fname = $('#fname');
+    var email = $('#email');
+    var phone = $('#phone');
+    var purpose = $('.purpose');
+    var checkin = $('#checkin');
+    var checkout = $('#checkout');
+    var nights = $('#nights');
+    var lastlocation = $('#lastlocation');
+    var nextlocation = $('#nextlocation');
+    var serial = $('#serial');
+
+    if (!serial.val()) {
+      $('#serial').css("border", "1px solid red");
+      $('#serial').focus();
+      e.preventDefault();
+      //return false;
+    }
+
+    if (!fname.val()) {
+      $('#fname').css("border", "1px solid red");
+      $('#fname').focus();
+      e.preventDefault();
+      //return false;
+    }
+    if (!email.val()) {
+      $('#email').css("border", "1px solid red");
+      $('#email').focus();
+      e.preventDefault();
+      //return false;
+    }
+
+    if (!phone.val()) {
+      $('#phone').css("border", "1px solid red");
+      $('#phone').focus();
+      e.preventDefault();
+      //return false;
+    }
+
+    if (!checkin.val()) {
+      $('#checkin').css("border", "1px solid red");
+      $('#checkin').focus();
+      e.preventDefault();
+      //return false;
+    }
+    if (!checkout.val()) {
+      $('#checkout').css("border", "1px solid red");
+      $('#checkout').focus();
+      e.preventDefault();
+      //return false;
+    }
+    if (!nights.val()) {
+      $('#nights').css("border", "1px solid red");
+      $('#nights').focus();
+      e.preventDefault();
+      //return false;
+    }
+    if (!lastlocation.val()) {
+      $('#lastlocation').css("border", "1px solid red");
+      $('#lastlocation').focus();
+      e.preventDefault();
+      //return false;
+    }
+    if (!nextlocation.val()) {
+      $('#nextlocation').css("border", "1px solid red");
+      $('#nextlocation').focus();
+      e.preventDefault();
+      //return false;
+    }
+    if (!purpose.val()) {
+      $('.purpose').css("border", "1px solid red");
+      $('.purpose').focus();
+      e.preventDefault();
+      //return false;
+    }
+
+    if (fname.val()) {
+      $('#fname').css("border", "");
+    }
+
+    if (email.val()) {
+      $('#email').css("border", "");
+    }
+
+    if (phone.val()) {
+      $('#phone').css("border", "");
+    }
+
+    if (checkin.val()) {
+      $('#checkin').css("border", "");
+    }
+
+    if (checkout.val()) {
+      $('#checkout').css("border", "");
+    }
+
+    if (lastlocation.val()) {
+      $('#lastlocation').css("border", "");
+    }
+    if (nextlocation.val()) {
+      $('#nextlocation').css("border", "");
+    }
+    if (purpose.val()) {
+      $('.purpose').css("border", "");
+      $('a[href="##"]').attr('href', '#');
+    }
+
+
+  });
+
+  $(".room_summary").on('click', function(e) {
+    var room_number = $("#room_number");
+    if (!room_number.val()) {
+      $('#room_number').css("border", "1px solid red");
+      $('#room_number').focus();
+      e.preventDefault();
+      //return false;
+    }
+  });
+
+  $('a[id="submitform"]').click(function() {
+    var room_number = $(this).attr('title');
+    $.ajax({
+      url: 'insert_data.php?type=quickbooking_direct&room_number=' + room_number,
+      type: 'POST',
+      data: $('form').serialize(),
+      cache: false,
+      success: function(data) {
+        if (data == 'Error! All field are required.') {
+          alert(data)
+        } else if (data == 'success') {
+          //$.session.remove("room_number");
+          window.location.href = 'room_view.php';
+        } else {
+          window.location.href = 'room_view.php';
+        }
+      }
+    });
+  });
+
+  $(".nametitle").change(function() {
+    var nametitle = $(this).attr('value');
+    if (nametitle == 'Mrs' || nametitle == 'Miss') {
+      $(".gender").val('Female');
+    } else {
+      $(".gender").val('Male');
+    }
+  });
+
+  $(".gender").change(function() {
+    var gender = $(this).attr('value');
+    if (gender == 'Female') {
+      $(".nametitle").val('Mrs');
+    } else {
+      $(".nametitle").val('Mr');
+    }
+  });
+
+  $('#email,#phone,.purpose,#checkin,#checkout,#lastlocation,#nextlocation').click(function() {
+    var formData = $("#checkin_form").serialize();
+    $.ajax({
+      type: "POST",
+      url: 'insert_data.php?type=save_formdata',
+      data: formData,
+      success: function(data) {}
+    });
+
+  });
+
+  $("select.hotel").change(function(e) {
+    var $this = $(this);
+    if (!$this.hasClass('active')) {
+      $this.addClass('active');
+    }
+    e.preventDefault();
+  });
+
+  // <!-- searching script here-->
+
+  $(document).ready(function() {
+    $("#search_guest").on('click', function() {
+      var query_value = $('input#name').val();
+      if (query_value !== '') {
+        $.ajax({
+          type: "POST",
+          url: "search_guest_details.php?type=guest_details",
+          data: {
+            query: query_value
+          },
+          cache: false,
+          success: function(html) {
+            $(".main_ul").html(html);
+          }
+        });
+      }
+      return false;
+    });
+
+    $("input#name").on("keyup", function(e) {
+      var search_string = $('input#name').val();
+      if (search_string == '') {
+        $(".main_ul").show();
+      }
+    });
+  });
+
+  //Tab function
+  function openArrivalHistroy(evt, day) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+      tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+      tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(day).style.display = "block";
+    evt.currentTarget.className += " active";
+  }
+
+  $('a[data-toggle="modal_quick_checkin"]').click(function() {
+    var arrival_b_id = $(this).attr('id');
+    $.ajax({
+      url: 'quick_check_in.php?arrival_b_id=' + arrival_b_id,
+      success: function(data) {
+        $(".popup1").show().html(data);
+      }
+    });
+  });
+
+
+  //div blink script
+  var $div2blink = $(".blink_div"); // Save reference, only look this item up once, then save
+  var backgroundInterval = setInterval(function() {
+    $div2blink.toggleClass("backgroundRed");
+  }, 300)
 </script>
 <style type="text/css">
-ul.main_ul {
-  margin-left: 5px !important;
-}
+  ul.main_ul {
+    margin-left: 5px !important;
+  }
 </style>
 </body>
 

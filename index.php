@@ -91,9 +91,7 @@ if (isset($_POST['login'])) {
 	<!-- Custom Theme files -->
 	<link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
 	<!--web-fonts-->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" async>
 	<style type="text/css">
 		select#soflow,
 		select#soflow-color {
@@ -103,7 +101,6 @@ if (isset($_POST['login'])) {
 			-webkit-padding-end: 20px;
 			-webkit-padding-start: 2px;
 			-webkit-user-select: none;
-			background-image: url(http://i62.tinypic.com/15xvbd5.png), -webkit-linear-gradient(#FAFAFA, #F4F4F4 40%, #E5E5E5);
 			background-position: 97% center;
 			background-repeat: no-repeat;
 			border: 1px solid #AAA;
@@ -119,7 +116,6 @@ if (isset($_POST['login'])) {
 
 		select#soflow-color {
 			color: #fff;
-			background-image: url(http://i62.tinypic.com/15xvbd5.png), -webkit-linear-gradient(#779126, #779126 40%, #779126);
 			background-color: #779126;
 			-webkit-border-radius: 20px;
 			-moz-border-radius: 20px;
@@ -145,24 +141,8 @@ if (isset($_POST['login'])) {
 	</style>
 	<!--Modal forgot pass-->
 
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-	<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
 </head>
 
-<!--js-->
-<script src="js/jquery.min.js"></script>
-<script src="js/easyResponsiveTabs.js" type="text/javascript"></script>
-<script type="text/javascript">
-	$(document).ready(function() {
-		$('#horizontalTab').easyResponsiveTabs({
-			type: 'default', //Types: default, vertical, accordion           
-			width: 'auto', //auto or any width like 600px
-			fit: true // 100% fit in a container
-		});
-	});
-</script>
-<!--//js-->
-</head>
 
 <body>
 	<!-- main -->
@@ -181,7 +161,6 @@ if (isset($_POST['login'])) {
 									alt="" /></a></li>
 						<li><a href="https://twitter.com/room_check" target="_blank" class="twt"><img src="images/i2.png"
 									alt="" /></a></li>
-						<!--<li><a href="https://plus.google.com/116029327024525796501/about" target="_blank" class="ggl"><img src="images/i3.png" alt=""/></a></li>-->
 					</ul>
 				</div>
 			</div>
@@ -208,13 +187,6 @@ if (isset($_POST['login'])) {
 											value="<?php if (isset($_COOKIES['password'])) echo $_COOKIES['password']; ?>"
 											placeholder="Password" required />
 										<input type="hidden" name="token" id="token" value="<?php if (isset($token)) echo $token; ?>">
-
-										<!--<div class="login-text">
-											<ul>
-												<li><label><input type="checkbox" value="Remember-Me" name="remember_me" /> Remember Me?</label></li>
-												<li>&nbsp;&nbsp;&nbsp;&nbsp;</li>
-											
-											</div>-->
 										<div style="margin-top:49px;" class="login-bottom login-bottom1">
 											<div class="submit">
 												<input type="submit" value="LOGIN" name="login" id="login" />
@@ -275,7 +247,22 @@ if (isset($_POST['login'])) {
 </body>
 
 </html>
+
+<!--js-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js" async></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" async></script>
+<script src="js/easyResponsiveTabs.js" type="text/javascript"></script>
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+<script type="text/javascript" src="entry/js/formvalidation.js"></script>
+
 <script type="text/javascript">
+	$(document).ready(function() {
+		$('#horizontalTab').easyResponsiveTabs({
+			type: 'default', //Types: default, vertical, accordion           
+			width: 'auto', //auto or any width like 600px
+			fit: true // 100% fit in a container
+		});
+	});
 	$("#forgot").click(function() {
 		var email = $("#email").val();
 		$.ajax({
@@ -292,10 +279,6 @@ if (isset($_POST['login'])) {
 			}
 		});
 	});
-</script>
-<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-<script type="text/javascript" src="entry/js/formvalidation.js"></script>
-<script type="text/javascript">
 	$("#login").click(function(e) {
 		var username = $('#username');
 		var password = $('#password');
