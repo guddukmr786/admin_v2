@@ -1,4 +1,4 @@
-<script src="../entry/js/jquery.min.js" defer></script>
+<script src="../entry/js/jquery.min.js"></script>
 <script src="../entry/js/jquery-ui.min.js" defer></script>
 <script src="../entry/js/jquery.idealforms.js" defer></script>
 <script src="../entry/js/jquery.session.js" defer></script>
