@@ -19,28 +19,28 @@ class Database
 
 		if ($_SERVER['HTTP_HOST'] == 'localhost') {
 
-			$this->folder_name = '/cir/';
+			$this->folder_name = '/admin_v2/';
 			$this->host_name = "127.0.0.1";
 			$this->user_name = "root";
 			$this->password = "";
 			$this->db_name = "checklmo_cir_admin";
 		} else {
 
-			$this->folder_name = "/";
-			$this->host_name = "localhost";
-			$this->user_name = "checklmo_cir_adm";
-			$this->password = "MPi})I5Ic!m3";
-			$this->db_name = "checklmo_cir_admin";
-
 			// $this->folder_name = "/";
 			// $this->host_name = "localhost";
-			// $this->user_name = "checklmo_cir_admin_v2_user";
-			// $this->password = "a,8b59]PEq}1";
-			// $this->db_name = "checklmo_cir_admin_v2";
+			// $this->user_name = "checklmo_cir_adm";
+			// $this->password = "MPi})I5Ic!m3";
+			// $this->db_name = "checklmo_cir_admin";
+
+			$this->folder_name = "/";
+			$this->host_name = "localhost";
+			$this->user_name = "checklmo_cir_admin_v2_user";
+			$this->password = "a,8b59]PEq}1";
+			$this->db_name = "checklmo_cir_admin_v2";
 		}
 
 		$this->con = mysqli_connect($this->host_name, $this->user_name, $this->password, $this->db_name)
-			or die("Couldn't connect to the database" . mysqli_error());
+			or die("Couldn't connect to the database" . mysqli_error($this->con));
 	}
 
 	public function execute($query)

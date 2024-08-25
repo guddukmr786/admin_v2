@@ -8,24 +8,24 @@ i {
 	font-family: Oxygen;
 	font-style: normal;
 	font-weight: 300;
-	src: url(../fonts/oxygen/Oxygen-Light.ttf);
-	src: local("Oxygen Light"), local("Oxygen-Light"), url(../fonts/oxygen/Oxygen-Light.ttf) format("embedded-opentype")
+	src: url(../fonts/oxygen/oxygen-v5-latin-300.eot);
+	src: local("Oxygen Light"), local("Oxygen-Light"), url(../fonts/oxygen/oxygen-v5-latin-300.eot?#iefix) format("embedded-opentype"), url(../fonts/oxygen/oxygen-v5-latin-300.ttf) format("truetype"), url(../fonts/oxygen/oxygen-v5-latin-300.svg#Oxygen) format("svg")
 }
 
 @font-face {
 	font-family: Oxygen;
 	font-style: normal;
 	font-weight: 400;
-	src: url(../fonts/oxygen/Oxygen-Regular.ttf);
-	src: local("Oxygen"), local("Oxygen-Regular"), url(../fonts/oxygen/#iefix?#iefix) format("embedded-opentype")
+	src: url(../fonts/oxygen/oxygen-v5-latin-regular.eot);
+	src: local("Oxygen"), local("Oxygen-Regular"), url(../fonts/oxygen/oxygen-v5-latin-regular.eot?#iefix) format("embedded-opentype"), url(../fonts/oxygen/oxygen-v5-latin-regular.svg#Oxygen) format("svg")
 }
 
 @font-face {
 	font-family: Oxygen;
 	font-style: normal;
 	font-weight: 700;
-	src: url(../fonts/oxygen/Oxygen-Bold.ttf);
-	src: local("Oxygen Bold"), local("Oxygen-Bold"), url(../fonts/oxygen/Oxygen-Bold.ttf?#iefix) format("embedded-opentype")
+	src: url(../fonts/oxygen/oxygen-v5-latin-700.eot);
+	src: local("Oxygen Bold"), local("Oxygen-Bold"), url(../fonts/oxygen/oxygen-v5-latin-700.eot?#iefix) format("embedded-opentype"), url(../fonts/oxygen/oxygen-v5-latin-700.svg#Oxygen) format("svg")
 }
 
 *,
@@ -215,7 +215,7 @@ img {
 	}
 }
 
-.c-tabs-nav {
+/* .c-tabs-nav {
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: -ms-flexbox;
@@ -307,7 +307,7 @@ img {
 
 .c-tabs.no-js .c-tab:last-child {
 	margin-bottom: 0
-}
+} */
 
 .carbon-img,
 .carbon-wrap {
@@ -370,14 +370,19 @@ img {
 }
 
 .scrollbar {
-
-
 	height: 1230px;
-
 	background: #F5F5F5;
 	overflow-y: scroll;
 	margin-bottom: 25px;
 }
+
+.tab-scrollbar {
+	height: 1230px;
+	background: #FFFFFF;
+	overflow-y: scroll;
+	margin-bottom: 25px;
+}
+
 
 
 
@@ -421,4 +426,51 @@ img {
 			color-stop(0.44, rgb(122, 153, 217)),
 			color-stop(0.72, rgb(73, 125, 189)),
 			color-stop(0.86, rgb(28, 58, 148)));
+}
+
+/* Style the tab */
+.tab {
+	overflow: hidden;
+	background-color: #FFFFFF;
+	width: 100%;
+}
+
+.tab .tablinks:nth-last-child(1) {
+	border-right: none;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+	width: 33.3%;
+	background-color: inherit;
+	float: left;
+	border: none;
+	outline: none;
+	cursor: pointer;
+	padding: 5px 10px;
+	border-right: 3px solid #F5F5F5;
+	border-bottom: 1px solid #E8E8E8;
+	transition: 0.3s;
+	font-size: 14px;
+	box-shadow: inset;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+	background-color: #79a5ca;
+	color: #FFFFFF;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+	background-color: #428BCA;
+	color: white;
+}
+
+/* Style the tab content */
+.tabcontent {
+	background-color: #FFFFFF;
+	display: none;
+	padding: 6px 12px;
+	border-top: none;
 }

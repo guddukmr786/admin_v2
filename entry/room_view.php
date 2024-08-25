@@ -9,12 +9,12 @@ $room_empty_count = 0;
 $room_clean_count = 0;
 $room_status_count = $obj->getRoomStatus($hotel_id);
 foreach ($room_status_count as $key => $value) {
-	if ($value['room_status'] == 'booked')
-		$room_booked_count = $value['room_status_count'];
-	else if ($value['room_status'] == 'empty')
-		$room_empty_count = $value['room_status_count'];
-	else if ($value['room_status'] == 'cleaning')
-		$room_clean_count = $value['room_status_count'];
+  if ($value['room_status'] == 'booked')
+    $room_booked_count = $value['room_status_count'];
+  else if ($value['room_status'] == 'empty')
+    $room_empty_count = $value['room_status_count'];
+  else if ($value['room_status'] == 'cleaning')
+    $room_clean_count = $value['room_status_count'];
 }
 
 
@@ -29,25 +29,25 @@ $emplyee_details = $obj->getEmployeeDetails($hotel_id);
 $msg = "";
 
 if (isset($_GET['room_status'])) {
-	$room_status = $_GET['room_status'];
-	$room_number = $_GET['room_number'];
-	$update = $obj->updateRoomStatus($room_status, $room_number, $hotel_id);
+  $room_status = $_GET['room_status'];
+  $room_number = $_GET['room_number'];
+  $update = $obj->updateRoomStatus($room_status, $room_number, $hotel_id);
 
-	if ($update == "success") {
-		die("<script>location.href = 'room_view.php'</script>");
-	} else {
-		$msg = "Error to updating room status.";
-	}
+  if ($update == "success") {
+    die("<script>location.href = 'room_view.php'</script>");
+  } else {
+    $msg = "Error to updating room status.";
+  }
 }
 
 if (isset($_GET['checkin_id'])) {
-	$checkin_id = $_GET['checkin_id'];
-	$room_number = $_GET['room_number'];
-	$update = $obj->updateCheckoutFinal($checkin_id, $room_number, $hotel_id);
-	if ($update == "success")
-		die("<script>location.href = 'room_view.php'</script>");
-	else
-		$msg = "Error to updataing room status";
+  $checkin_id = $_GET['checkin_id'];
+  $room_number = $_GET['room_number'];
+  $update = $obj->updateCheckoutFinal($checkin_id, $room_number, $hotel_id);
+  if ($update == "success")
+    die("<script>location.href = 'room_view.php'</script>");
+  else
+    $msg = "Error to updataing room status";
 }
 ?>
 <link rel="stylesheet" href="css/style.min.css">
@@ -109,27 +109,22 @@ if (isset($_GET['checkin_id'])) {
 </style>
 <div class="col-md-3">
   <div class="o-section">
-    <div id="tabs" class="c-tabs no-js">
-      <div class="c-tabs-nav">
+    <div id="tabs">
+      <!--Tab header-->
+      <div class="tab">
 
-        <a href="#" class="c-tabs-nav__link is-active">
-          <span style="font-size: 13px!important;">Today&nbsp;(&nbsp;<?php $today = count($today_arrival_booking);
-																																			echo $today; ?>&nbsp;)</span>
-        </a>
-        <a href="#" class="c-tabs-nav__link">
-          <span style="font-size: 13px!important;">Tomorrow&nbsp;(&nbsp;<?php $tomorrow = count($tomorrow_arrival_booking);
-																																				echo $tomorrow; ?>&nbsp;)</span>
-        </a>
-        <a href="#" class="c-tabs-nav__link">
-          <span style="font-size: 13px!important;">Yesterday&nbsp;(&nbsp;<?php $yesterday = count($yesterday_booking);
-																																					echo $yesterday; ?>&nbsp;)</span>
-        </a>
+        <button class="tablinks active" onclick="openArrivalHistroy(event, 'Today')">Today
+          (<?php echo count($today_arrival_booking); ?>)
+        </button>
+        <button class="tablinks" onclick="openArrivalHistroy(event, 'Tomorrow')">Tomorrow
+          (<?php echo  count($tomorrow_arrival_booking); ?>)
+        </button>
+        <button class="tablinks" onclick="openArrivalHistroy(event, 'Yesterday')">Yesterday
+          (<?php echo count($yesterday_booking); ?>)
+        </button>
       </div>
-
-
-      <div class="c-tab is-active">
-        <div class="c-tab__content scrollbar" id="style-2">
-
+      <div id="Today" class="tabcontent active" style="display: block;">
+        <div class="tab-scrollbar">
           <?php foreach ($today_arrival_booking as $t_a_booking) { ?>
           <!--<a class="widget-list-link">-->
           <a style="text-decoration: none;" href="#empty" class="widget-list-link" data-toggle="modal_quick_checkin"
@@ -161,8 +156,9 @@ if (isset($_GET['checkin_id'])) {
           <?php } ?>
         </div>
       </div>
-      <div class="c-tab">
-        <div class="c-tab__content">
+
+      <div id="Tomorrow" class="tabcontent">
+        <div class="tab-scrollbar">
           <?php foreach ($tomorrow_arrival_booking as $tom_a_booking) { ?>
           <a class="widget-list-link" style="text-decoration: none;">
             <h5 style="color: #dc446e!important;"><?php echo $tom_a_booking['guest_name']; ?>
@@ -186,8 +182,9 @@ if (isset($_GET['checkin_id'])) {
           <?php } ?>
         </div>
       </div>
-      <div class="c-tab">
-        <div class="c-tab__content">
+
+      <div id="Yesterday" class="tabcontent">
+        <div class="tab-scrollbar">
           <?php foreach ($yesterday_booking as $yesterday_book) { ?>
           <a class="widget-list-link" style="text-decoration: none;">
             <h5 style="color: #dc446e!important;"><?php echo $yesterday_book['guest_name']; ?>
@@ -210,7 +207,6 @@ if (isset($_GET['checkin_id'])) {
           <?php } ?>
         </div>
       </div>
-
     </div>
   </div>
 </div>
@@ -218,36 +214,31 @@ if (isset($_GET['checkin_id'])) {
   <div id="erro_ch"></div>
   <p>
 
-    <!--<div class="col-md-6 btn_add"  style="padding-left:0px;padding-bottom:5px;padding-right:0px;"><a href="add_summary.php" style="float:left;" class="add_summary" title="add_summary">Add Room Summary</a>
-			<a href="#advance" style="float:left;" data-toggle="modal">Add Room Advance</a>
-		</div>-->
   <div class="col-md-6 btn_add" style="padding-left:0px;padding-bottom:5px;padding-right:92px;">
-    <!--<img width="35px;" height="35px;" src="line.png" title="">-->
     <input style="padding-left:10px;padding-top:4px;padding-bottom:4px;width:160px" type="text" name="room_number"
       id="room_number" placeholder="Enter room number.">
     <a href="#" class="room_summary" title="view_summary">View Summary</a>
   </div>
-  <!--<a href="#" class="room_summary" title="checkout"><i class="fa fa-sign-out">&nbsp;</i>Checkout</a>-->
 
   </p>
   <span id="show_data"></span>
   <div class="content_wrapper">
     <?php
-		if (!empty($room_details)) {
-			foreach ($room_details as $key => $value) {
-				if (!empty($value)) {
-					$floor_label = "";
-					if ($value[0]['floor'] == '0')
-						$floor_label = "Ground Floor";
-					else if ($value[0]['floor'] == '1')
-						$floor_label = "First Floor";
-					else if ($value[0]['floor'] == '2')
-						$floor_label = "Second Floor";
-					else if ($value[0]['floor'] == '3')
-						$floor_label = "Third floor";
-					else if ($value[0]['floor'] == '4')
-						$floor_label = "Fourth Floor";
-		?>
+    if (!empty($room_details)) {
+      foreach ($room_details as $key => $value) {
+        if (!empty($value)) {
+          $floor_label = "";
+          if ($value[0]['floor'] == '0')
+            $floor_label = "Ground Floor";
+          else if ($value[0]['floor'] == '1')
+            $floor_label = "First Floor";
+          else if ($value[0]['floor'] == '2')
+            $floor_label = "Second Floor";
+          else if ($value[0]['floor'] == '3')
+            $floor_label = "Third floor";
+          else if ($value[0]['floor'] == '4')
+            $floor_label = "Fourth Floor";
+    ?>
     <div class="row mt10">
       <div class="col-md-12">
         <?php if (!empty($msg)) { ?>
@@ -258,35 +249,43 @@ if (isset($_GET['checkin_id'])) {
         <span style="color:green;">
           <b>
             <?php
-										echo $_SESSION['success'];
-										unset($_SESSION['success']);
-										?>
+                    echo $_SESSION['success'];
+                    unset($_SESSION['success']);
+                    ?>
           </b>
         </span>
         <?php } elseif (isset($_SESSION['error'])) { ?>
         <span style="color:red;"><b><?php echo $_SESSION['error'];
-																						unset($_SESSION['error']); ?></b></span>
+                                            unset($_SESSION['error']); ?></b></span>
         <?php } ?>
         <h3 class="heading"><?php echo $floor_label; ?></h3>
         <?php foreach ($value as $ground_value) {
-								$room_number = $ground_value['room_number'];
-								if ($ground_value['room_status'] == "booked") {
-									$details[] = $guest_details = $obj->getRoomGuestDetails($room_number, $hotel_id);
-									$checkin_id = $guest_details && $guest_details['checkin_id'];
-									$extended = $obj->getExtendedDateByCheckinId($checkin_id, $hotel_id);
+                $room_number = $ground_value['room_number'];
+                if ($ground_value['room_status'] == "booked") {
+                  $guest_details = $obj->getRoomGuestDetails($room_number, $hotel_id);
+                  $extended = $obj->getExtendedDateByCheckinId($guest_details['checkin_id'], $hotel_id);
+                  // echo "<pre>";
+                  // echo $guest_details['checkin_id'];
+                  // print_r($guest_details);
+                  // echo "---------------------";
+                  // echo "<pre>";
+                  // print_r("extend", $extended);
+                  // die;
+                  if (!empty($extended)) {
+                    $checkout_date_s = $extended['current_co_date'];
+                  } else {
+                    $checkout_date_s = $guest_details && $guest_details['current_co_date'];
+                  }
 
-									if (!empty($extended)) {
-										$checkout_date_s = $extended['current_co_date'];
-									} else {
-										$checkout_date_s = $guest_details && $guest_details['current_co_date'];
-									}
-									$time = "10:00 PM";
-									$current_time = date('H:i A');
-									$current_date = date('Y-m-d');
-
-									if (!empty($guest_details['id_proof'])) {
-										if ($current_date == $checkout_date_s && $current_time >= $time) {
-							?>
+                  $time = "10:00 PM";
+                  $current_time = date('H:i A');
+                  $current_date = date('Y-m-d');
+                  // echo $current_date;
+                  // echo $checkout_date_s;
+                  // die;
+                  if (!empty($guest_details['id_proof'])) {
+                    if (($current_date == $checkout_date_s) && ($current_time >= $time)) {
+              ?>
         <div class="col-md-2 rooms rooms_booked blink_div">
           <h4 class="text-center room_text">
             <div class="room_catg"><?php echo $ground_value['room_category']; ?></div>
@@ -305,7 +304,7 @@ if (isset($_GET['checkin_id'])) {
           </h4>
         </div>
         <?php }
-									} else { ?>
+                  } else { ?>
         <div class="col-md-2 rooms rooms_booked">
           <h4 class="text-center room_text">
             <div class="room_catg"><?php echo $ground_value['room_category']; ?></div>
@@ -332,7 +331,7 @@ if (isset($_GET['checkin_id'])) {
           </h4>
         </div>
         <?php }
-							} ?>
+              } ?>
 
       </div>
       <!--col-md-12-->
@@ -340,9 +339,9 @@ if (isset($_GET['checkin_id'])) {
     </div>
     <!--row-->
     <?php }
-			}
-		}
-		?>
+      }
+    }
+    ?>
     <!--row-->
     <hr style="border:1px dotted;">
 
@@ -362,22 +361,6 @@ if (isset($_GET['checkin_id'])) {
     </div>
   </div>
 </div>
-<!--<div class="col-md-2 c-tab__content scrollbar" id="style-2">
-	<div class="cir">
-    <div class="cir-top">
-      <h5 class="cir-top-title">Employee Details</h5>
-     
-    </div>
-    
-    <form class="form-horizontal" name="search" role="form" method="POST" onkeypress="return event.keyCode != 13;">
-      <div class="search">
-        <input  style="width:70%!important;background-color:#eee;border:1px solid #eee;padding: 5px 5px;" id="name" name="name" type="text" placeholder="Search by name" autocomplete="off"/>
-      </div>
-    </form>
-    <ul class="main_ul replace">
-    </ul>
-  </div>	
-</div>-->
 
 <div class="col-md-2 c-tab__content scrollbar" id="style-2">
   <div class="cir">
@@ -389,41 +372,32 @@ if (isset($_GET['checkin_id'])) {
 
         <input style="width:70%!important;background-color:#eee;border:1px solid #eee;padding: 5px 5px;" id="name"
           name="name" type="text" placeholder="Search by name" autocomplete="off" />
-        <button type="button" id="search_guest"><img src="1495902950_search.ico"></button>
+        <button type="button" id="search_guest">Search</button>
       </div>
     </form>
     <hr style="border: 1px solid #428BCA;">
 
     <ul class="main_ul">
-      <?php /* <?php 
-    		$current_date = CURR_DATE;
-    		if($today_chec['checkout_date'] == $current_date){ ?>
-      <span cir-item-name style="font-size: 14px;"><a class="blink-text"><b>Room No. -
-            <?php echo $today_chec['room_number'];?></b></a></span></br>
-      <?php } else { ?>
-      <span cir-item-name style="font-size: 14px;"><a><b>Room No. -
-            <?php echo $today_chec['room_number'];?></b></a></span></br>
-      <?php } ?>*/ ?>
 
       <?php foreach ($today_checkedin as $today_chec) {
-				$checkin_id = $today_chec['checkin_id'];
-				$checkin_date = $today_chec['checkin_date'];
-				$all_guest = $obj->getAllGuestNameByCheckinId($checkin_id, $checkin_date);
-				$extended = $obj->getExtendedDateByCheckinId($checkin_id, $hotel_id);
-			?>
+        $checkin_id = $today_chec['checkin_id'];
+        $checkin_date = $today_chec['checkin_date'];
+        $all_guest = $obj->getAllGuestNameByCheckinId($checkin_id, $checkin_date);
+        $extended = $obj->getExtendedDateByCheckinId($checkin_id, $hotel_id);
+      ?>
       <li cir-item-name><a>
           <h5 style="color: #dc446e!important;">Room No. - <?php echo $today_chec['room_number']; ?></h5>
         </a></li>
       <li class="size"><a><?php echo $today_chec['name']; ?></a></li>
 
       <?php
-				if (!empty($all_guest)) {
-					foreach ($all_guest as $g_name) {
-						$name = $g_name['name_title'] . ' ' . $g_name['name'];
-				?>
+        if (!empty($all_guest)) {
+          foreach ($all_guest as $g_name) {
+            $name = $g_name['name_title'] . ' ' . $g_name['name'];
+        ?>
       <li class="size"><a><?php echo $name; ?></a></li>
       <?php }
-				} ?>
+        } ?>
       <li class="size"><?php echo $today_chec['compnay_name']; ?></li>
       <li class="size"><?php echo $today_chec['phone']; ?></li>
       <li class="size"><?php echo $today_chec['email']; ?></li>
@@ -440,12 +414,8 @@ if (isset($_GET['checkin_id'])) {
       <hr style="border: 1px dotted #428BCA;">
       <?php } ?>
     </ul>
-    <!--<div class="ul_replace">
-          </div>-->
   </div>
 </div>
-
-
 
 <p>&nbsp;</p>
 <p>&nbsp;</p>
@@ -486,27 +456,27 @@ if (isset($_GET['checkin_id'])) {
           <label class="main">Gender:</label>
           <select name="gender[]" id="selectt" class="gender" style="width: 278px!important;">
             <?php $genders = array('Male', 'Female', 'Other');
-						foreach ($genders as $gender) {
-							if (isset($_SESSION['gender'])) {
-						?>
+            foreach ($genders as $gender) {
+              if (isset($_SESSION['gender'])) {
+            ?>
             <option value="<?php echo $gender; ?>"
               <?php if ($_SESSION['gender'][0] == $gender) echo 'selected="selected"'; ?>><?php echo $gender; ?>
             </option>
             <?php } else { ?>
             <option value="<?php echo $gender; ?>"><?php echo $gender; ?></option>
             <?php }
-						} ?>
+            } ?>
           </select>
         </div>
       </span>
       <div class="clear"></div>
       <!-- here code for updade only -->
       <?php
-			if (isset($_SESSION['fname'])) {
-				$i = 1;
-				$count = count($_SESSION['fname']);
-				if ($count > $i) {
-					for ($y = 1; $y < $count; $y++) {  ?>
+      if (isset($_SESSION['fname'])) {
+        $i = 1;
+        $count = count($_SESSION['fname']);
+        if ($count > $i) {
+          for ($y = 1; $y < $count; $y++) {  ?>
       <span id="wrapelement<?php echo $i; ?>">
         <div class="field">
           <label class="main">Full Name<span style="color:red;"> * </span>:</label>
@@ -522,17 +492,17 @@ if (isset($_GET['checkin_id'])) {
           <select name="gender[]" id="selectt" class="gender" style="width:278px!important;">
             <?php $genders = array('Male', 'Female', 'Other');
 
-									foreach ($genders as $gender) {
-										if (isset($_SESSION['gender'])) {
-											//foreach ( $_SESSION['gender'] as $SSgender ) {
-									?>
+                  foreach ($genders as $gender) {
+                    if (isset($_SESSION['gender'])) {
+                      //foreach ( $_SESSION['gender'] as $SSgender ) {
+                  ?>
             <option value="<?php echo $gender; ?>"
               <?php if ($gender == $_SESSION['gender'][$i]) echo 'selected="selected"'; ?>><?php echo $gender; ?>
             </option>
             <?php } else { ?>
             <option value="<?php echo $gender; ?>"><?php echo $gender; ?></option>
             <?php }
-									}  ?>
+                  }  ?>
           </select>
         </div>
       </span>
@@ -541,7 +511,7 @@ if (isset($_GET['checkin_id'])) {
       <span id="wrapelement<?php echo $i; ?>"></span>
       <input type="hidden" id="i" value="<?php echo $i; ?>">
       <?php }
-			} else { ?>
+      } else { ?>
       <span id="wrapelement1"></span>
       <?php  } ?>
     </div>
@@ -603,16 +573,16 @@ if (isset($_GET['checkin_id'])) {
       <select name="purpose" id="selectt" class="purpose">
         <option value="">Select an purpouse</option>
         <?php
-				$purpouses = array('Tourist', 'Official/Bussiness', 'Medical', 'Exam', 'Interview', 'Other');
-				foreach ($purpouses as $purpouse) {
-					if (isset($_SESSION['purpose'])) {
-				?>
+        $purpouses = array('Tourist', 'Official/Bussiness', 'Medical', 'Exam', 'Interview', 'Other');
+        foreach ($purpouses as $purpouse) {
+          if (isset($_SESSION['purpose'])) {
+        ?>
         <option value="<?php echo $purpouse; ?>"
           <?php if ($_SESSION['purpose'] == $purpouse) echo 'selected="selected"'; ?>><?php echo $purpouse; ?></option>
         <?php } else { ?>
         <option value="<?php echo $purpouse; ?>"><?php echo $purpouse; ?></option>
         <?php }
-				} ?>
+        } ?>
       </select>
     </div>
     <div class="clear"></div>
@@ -656,12 +626,12 @@ if (isset($_GET['checkin_id'])) {
 </div>
 <?php include('../include/footer.php'); ?>
 
-<script src="js/quantity-bt.js"></script>
-<script src="js/bootstrap-datepicker.js"></script>
-<script type="text/javascript" src="js/save_entry_fromdata.js"></script>
+<script src="js/quantity-bt.js" defer></script>
+<script src="js/bootstrap-datepicker.js" defer></script>
+<script type="text/javascript" src="js/save_entry_fromdata.js" defer></script>
 <!--<script type="text/javascript" src="js/save_hotel_id.js"></script>-->
 <!--url replacing -->
-<script type="text/javascript">
+<script type="text/javascript" defer>
 //replace white space
 $(function() {
   $('#phone').bind('input', function() {
@@ -719,8 +689,7 @@ $('#advance_btn').click(function(e) {
     //return false;
   }
 });
-</script>
-<script type="text/javascript">
+
 $('.room_summary').click(function() {
   var room_number = $("#room_number").val();
   var type = $(this).attr('title');
@@ -739,9 +708,7 @@ $('.room_summary').click(function() {
     });
   }
 });
-</script>
 
-<script type="text/javascript">
 $(document).ready(function() {
   var room_number = localStorage.getItem('room_number')
   $('a[title=""]').attr('title', room_number);
@@ -754,8 +721,7 @@ $("a[data-toggle=modal]").click(function() {
   $('a[title=""]').attr('title', room_number);
 
 });
-</script>
-<script>
+
 $(document).ready(function() {
   $("#checkin").datepicker({
     minDate: "01/30/2012",
@@ -805,9 +771,7 @@ $('#nights').click(function() {
   var days = (end - start) / 1000 / 60 / 60 / 24;
   $("#nights").val(days);
 });
-</script>
 
-<script>
 $(document).ready(function() {
   var var_i = $('#i');
   if (var_i.val()) {
@@ -837,8 +801,7 @@ $(document).ready(function() {
     }
   });
 });
-</script>
-<script type="text/javascript">
+
 $(document).on("keyup", "#email,#phone", function() {
   var email = $("#email").val();
   if (email) {
@@ -867,8 +830,7 @@ $(document).on("keyup", "#email,#phone", function() {
     $("#email_msg").hide();
   }
 });
-</script>
-<script type="text/javascript">
+
 $(document).on("click", "#email,#phone", function() {
   var email = $("#email").val();
   if (email) {
@@ -896,9 +858,7 @@ $(document).on("click", "#email,#phone", function() {
     $("#email_msg").hide();
   }
 });
-</script>
 
-<script type="text/javascript">
 $(document).on("keyup", "#email,#phone", function() {
   var phone = $("#phone").val();
   if (phone) {
@@ -926,8 +886,7 @@ $(document).on("keyup", "#email,#phone", function() {
     $("#phone_error").hide();
   }
 });
-</script>
-<script type="text/javascript">
+
 $(document).on("click", "#email,#phone", function() {
   var phone = $("#phone").val();
   if (phone) {
@@ -955,8 +914,7 @@ $(document).on("click", "#email,#phone", function() {
     $("#phone_error").hide();
   }
 });
-</script>
-<script type="text/javascript">
+
 $(document).ready(function() {
 
   $('#fname,#email,#phone,.purpose,#checkin,#checkout,#lastlocation,#nextlocation,#serial,#room_number').click(
@@ -1096,8 +1054,7 @@ $(".room_summary").on('click', function(e) {
     //return false;
   }
 });
-</script>
-<script type="text/javascript">
+
 $('a[id="submitform"]').click(function() {
   var room_number = $(this).attr('title');
   $.ajax({
@@ -1117,9 +1074,7 @@ $('a[id="submitform"]').click(function() {
     }
   });
 });
-</script>
 
-<script type="text/javascript">
 $(".nametitle").change(function() {
   var nametitle = $(this).attr('value');
   if (nametitle == 'Mrs' || nametitle == 'Miss') {
@@ -1128,8 +1083,7 @@ $(".nametitle").change(function() {
     $(".gender").val('Male');
   }
 });
-</script>
-<script type="text/javascript">
+
 $(".gender").change(function() {
   var gender = $(this).attr('value');
   if (gender == 'Female') {
@@ -1138,9 +1092,7 @@ $(".gender").change(function() {
     $(".nametitle").val('Mr');
   }
 });
-</script>
 
-<script type="text/javascript">
 $('#email,#phone,.purpose,#checkin,#checkout,#lastlocation,#nextlocation').click(function() {
   var formData = $("#checkin_form").serialize();
   $.ajax({
@@ -1151,10 +1103,7 @@ $('#email,#phone,.purpose,#checkin,#checkout,#lastlocation,#nextlocation').click
   });
 
 });
-</script>
 
-<!--w kn -->
-<script type="text/javascript">
 $("select.hotel").change(function(e) {
   var $this = $(this);
   if (!$this.hasClass('active')) {
@@ -1162,10 +1111,9 @@ $("select.hotel").change(function(e) {
   }
   e.preventDefault();
 });
-</script>
 
-<!-- searching script here-->
-<script type="text/javascript">
+// <!-- searching script here-->
+
 $(document).ready(function() {
   $("#search_guest").on('click', function() {
     var query_value = $('input#name').val();
@@ -1192,22 +1140,43 @@ $(document).ready(function() {
     }
   });
 });
-</script>
-<!--searching script end here-->
+
+// <!--searching script end here-->
 
 
-<!--tab style-->
-<script src="js/tabs.js"></script>
-<script>
-var myTabs = tabs({
-  el: '#tabs',
-  tabNavigationLinks: '.c-tabs-nav__link',
-  tabContentContainers: '.c-tab'
+// <!--tab style-->
+
+// var myTabs = tabs({
+//   el: '#tabs',
+//   tabNavigationLinks: '.c-tabs-nav__link',
+//   tabContentContainers: '.c-tab'
+// });
+
+// myTabs.init();
+
+$(function() {
+  $("#tabs").tabs({
+    el: '#tabs',
+    tabNavigationLinks: '.c-tabs-nav__link',
+    tabContentContainers: '.c-tab'
+  }).init(); // Initialize tabs
 });
 
-myTabs.init();
-</script>
-<script type="text/javascript">
+//Tab function
+function openArrivalHistroy(evt, day) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(day).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+
 $('a[data-toggle="modal_quick_checkin"]').click(function() {
   var arrival_b_id = $(this).attr('id');
   $.ajax({
