@@ -26,17 +26,17 @@ class Database
 			$this->db_name = "checklmo_cir_admin";
 		} else {
 
-			// $this->folder_name = "/";
-			// $this->host_name = "localhost";
-			// $this->user_name = "checklmo_cir_adm";
-			// $this->password = "MPi})I5Ic!m3";
-			// $this->db_name = "checklmo_cir_admin";
-
 			$this->folder_name = "/";
 			$this->host_name = "localhost";
-			$this->user_name = "checklmo_cir_admin_v2_user";
-			$this->password = "a,8b59]PEq}1";
-			$this->db_name = "checklmo_cir_admin_v2";
+			$this->user_name = "checklmo_cir_adm";
+			$this->password = "MPi})I5Ic!m3";
+			$this->db_name = "checklmo_cir_admin";
+
+			// $this->folder_name = "/";
+			// $this->host_name = "localhost";
+			// $this->user_name = "checklmo_cir_admin_v2_user";
+			// $this->password = "a,8b59]PEq}1";
+			// $this->db_name = "checklmo_cir_admin_v2";
 		}
 
 		$this->con = mysqli_connect($this->host_name, $this->user_name, $this->password, $this->db_name)
